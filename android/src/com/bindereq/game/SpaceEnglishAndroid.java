@@ -6,7 +6,7 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.bindereq.game.SpaceEnglish;
 
-public class AndroidLauncher extends AndroidApplication {
+public class SpaceEnglishAndroid extends AndroidApplication {
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
