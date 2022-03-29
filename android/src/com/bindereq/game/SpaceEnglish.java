@@ -4,13 +4,17 @@ import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.bindereq.game.SpaceEnglish;
 
-public class SpaceEnglishAndroid extends AndroidApplication {
+public class SpaceEnglish extends AndroidApplication {
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		initialize(new SpaceEnglish(), config);
+		config.useGyroscope = false;
+		config.useAccelerometer = false;
+		config.useCompass = false;
+		config.useRotationVectorSensor = false;
+		config.useWakelock = false;
+		initialize(new SpaceEnglishCore(), config);
 	}
 }
