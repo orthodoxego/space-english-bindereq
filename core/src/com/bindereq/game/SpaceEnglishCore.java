@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.bindereq.game.font.Font;
 import com.bindereq.game.settings.GdxViewport;
 import com.bindereq.game.settings.Setup;
 import com.bindereq.game.view.GameScreen;
@@ -18,11 +19,26 @@ public class SpaceEnglishCore extends ApplicationAdapter {
 	private OrthographicCamera camera;
 	private Viewport viewport;
 	private AssetManager manager;
+	private Font font;
 
 	GameScreen gameScreen;
 	Setup setup;
 
 	// private SimpleStage stage;
+
+
+	@Override
+	public void create () {
+		camera = new OrthographicCamera();
+		viewport = new FillViewport(GdxViewport.WORLD_WIDTH, GdxViewport.WORLD_HEIGHT, camera);
+		manager = new AssetManager();
+
+		setup = new Setup();
+		font = new Font();
+
+		gameScreen = new GameScreen(this, setup, viewport, camera, manager);
+
+	}
 
 	public static SpaceEnglishCore self() {
 		/** Возвращает главный класс игры из любого места. **/
@@ -35,18 +51,6 @@ public class SpaceEnglishCore extends ApplicationAdapter {
 
 	public static void log(String msg) {
 		Gdx.app.log(Setup.APP_ID, "NO CLASS: " + msg);
-	}
-
-	@Override
-	public void create () {
-		camera = new OrthographicCamera();
-		viewport = new FillViewport(GdxViewport.WORLD_WIDTH, GdxViewport.WORLD_HEIGHT, camera);
-		manager = new AssetManager();
-
-		setup = new Setup();
-
-		gameScreen = new GameScreen(this, setup, viewport, camera, manager);
-
 	}
 
 	@Override

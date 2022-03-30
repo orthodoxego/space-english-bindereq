@@ -21,6 +21,8 @@ public class GameStage extends Stage {
         this.viewport = viewport;
         this.camera = camera;
         this.manager = manager;
+
+
     }
 
 

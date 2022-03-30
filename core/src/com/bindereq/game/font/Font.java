@@ -10,25 +10,15 @@ import com.bindereq.game.settings.Setup;
 
 public class Font {
 
-    Setup setup;
-
-    FreeTypeFontGenerator comfortaa_b;
-    FreeTypeFontGenerator russo_one;
-    FreeTypeFontGenerator oswaldm;
+    FreeTypeFontGenerator manrope_bold;
+    FreeTypeFontGenerator manrope_medium;
     GlyphLayout glyphLayout;
 
-    public static BitmapFont fontInfoLine;
-    public static BitmapFont bigTicker;
-    public static BitmapFont littleTicker;
-    public static BitmapFont fontScore;
-    public static BitmapFont advertFont;
-    public static BitmapFont nickNameFont;
-    public static BitmapFont recordScoreFont;
+    public static BitmapFont manrope_medium_14px;
 
-    public Font(Setup setup) {
-        comfortaa_b = new FreeTypeFontGenerator(Gdx.files.internal("fonts/comfortaa-b.ttf"));
-        russo_one = new FreeTypeFontGenerator(Gdx.files.internal("fonts/russo-one.ttf"));
-        oswaldm = new FreeTypeFontGenerator(Gdx.files.internal("fonts/oswaldm.ttf"));
+    public Font() {
+        manrope_bold = new FreeTypeFontGenerator(Gdx.files.internal("font/manrope-bold.ttf"));
+        manrope_medium = new FreeTypeFontGenerator(Gdx.files.internal("font/manrope-medium.ttf"));
 
         glyphLayout = new GlyphLayout();
 
@@ -42,87 +32,19 @@ public class Font {
         parameter.borderColor = Color.valueOf("224570");
         parameter.color = Color.valueOf("EEFF00");
 
-        fontInfoLine = comfortaa_b.generateFont(parameter);
+        manrope_medium_14px = manrope_medium.generateFont(parameter);
 
-        parameter.size = (int) (GdxViewport.FIXED_BLOCK / 1.2f);
-        parameter.borderWidth = 0;
-        parameter.borderColor = Color.valueOf("373737");
-        parameter.color = Color.valueOf("ffffff");
-        bigTicker = russo_one.generateFont(parameter);
+        manrope_bold.dispose();
+        manrope_medium.dispose();
 
-        parameter.size = (int) (GdxViewport.FIXED_BLOCK / 2f);
-        parameter.borderWidth = 0;
-        parameter.borderColor = Color.valueOf("646464");
-        parameter.color = Color.valueOf("e852ca");
-        littleTicker = russo_one.generateFont(parameter);
-
-        parameter.size = (int) (GdxViewport.FIXED_BLOCK / 1.5f);
-        parameter.borderWidth = 1;
-        parameter.borderColor = Color.valueOf("646464");
-        parameter.color = Color.valueOf("ffffff");
-        fontScore = russo_one.generateFont(parameter);
-
-        parameter.size = (int) (GdxViewport.FIXED_BLOCK / 2.1f);
-        parameter.borderWidth = 0;
-        parameter.borderColor = Color.valueOf("000000");
-        parameter.color = Color.valueOf("FFFFFF");
-        advertFont = russo_one.generateFont(parameter);
-
-        // Шрифт для никнейма
-        parameter.size = (int) (GdxViewport.FIXED_BLOCK * 1.2f);
-        parameter.borderWidth = 0;
-        parameter.borderColor = Color.valueOf("111111");
-        parameter.color = Color.valueOf("5bda5e");
-        nickNameFont = russo_one.generateFont(parameter);
-
-        // Шрифт для рекордов
-        parameter.size = (int) (GdxViewport.FIXED_BLOCK * 0.55f);
-        parameter.borderWidth = 0;
-        parameter.borderColor = Color.valueOf("111111");
-        // parameter.spaceX = 0;
-        // parameter.mono = true;
-        parameter.color = Color.valueOf("FFFFFF");
-        recordScoreFont = oswaldm.generateFont(parameter);
-
-
-        comfortaa_b.dispose();
-        russo_one.dispose();
     }
 
-    public BitmapFont getAdvertFont() {
-        return advertFont;
-    }
-
-    public BitmapFont getFontInfoLine() {
-        return fontInfoLine;
-    }
-
-    public BitmapFont getBigTicker() {
-        return bigTicker;
-    }
-
-    public BitmapFont getLittleTicker() {
-        return littleTicker;
-    }
-
-    public BitmapFont getFontScore() {
-        return fontScore;
-    }
-
-    public BitmapFont getNickNameFont() {
-        return nickNameFont;
-    }
-
-    public BitmapFont getRecordScoreFont() {
-        return recordScoreFont;
-    }
-
-    public GlyphLayout getGlyphLayout() {
-        return glyphLayout;
+    public BitmapFont getManropeMedium14px() {
+        return manrope_medium_14px;
     }
 
     public void dispose() {
-
+        manrope_medium_14px.dispose();
     }
 
 
