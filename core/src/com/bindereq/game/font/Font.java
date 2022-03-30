@@ -55,6 +55,7 @@ public class Font {
 
     public void dispose() {
         manrope_medium_14px.dispose();
+        manrope_bold_14px.dispose();
     }
 
 

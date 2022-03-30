@@ -5,12 +5,14 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.bindereq.game.SpaceEnglishCore;
 import com.bindereq.game.settings.GdxViewport;
+import com.bindereq.game.stages.NextLevelStage;
 import com.bindereq.game.view.GameScreen;
 
 public class TextActor extends Actor {
 
-    GameScreen gameScreen;
+    NextLevelStage nextLevelStage;
     float x, y, width, height, scaleX = 1.0f, scaleY = 1.0f;
     BitmapFont font;
     String textLine, color;
@@ -19,8 +21,8 @@ public class TextActor extends Actor {
     float time = 0.0f, alpha = 0.0f;
 
 
-    public TextActor(GameScreen gameScreen, float x, float y, String textLine, BitmapFont bitmapFont, GlyphLayout glyphLayout, String color) {
-        this.gameScreen = gameScreen;
+    public TextActor(NextLevelStage nextLevelStage, float x, float y, String textLine, BitmapFont bitmapFont, GlyphLayout glyphLayout, String color) {
+        this.nextLevelStage = nextLevelStage;
         this.x = x;
         this.y = y;
         this.textLine = textLine;
@@ -32,9 +34,14 @@ public class TextActor extends Actor {
         widthText = (int) glyphLayout.width;
         heightText = (int) glyphLayout.height;
         if (this.x == 0 && this.y == 0) {
-            this.x = (GdxViewport.WORLD_WIDTH * GdxViewport.ratio - widthText) / 2;
-            this.y = (GdxViewport.WORLD_HEIGHT * GdxViewport.ratio - heightText) / 2;
+            this.x = (GdxViewport.WORLD_WIDTH / GdxViewport.ratio - widthText) / 2;
+            this.y = (GdxViewport.WORLD_HEIGHT / GdxViewport.ratio - heightText) / 2;
         }
+
+
+
+
+        SpaceEnglishCore.log("Create textactor " + GdxViewport.WORLD_WIDTH + " " + GdxViewport.WORLD_HEIGHT + " " + GdxViewport.ratio);
 
     }
 
@@ -52,7 +59,7 @@ public class TextActor extends Actor {
         if (alpha > 1.0f) alpha = 1.0f;
         else if (alpha < 0.0f) {
             alpha = 0.0f;
-            gameScreen.setGameStage();
+            nextLevelStage.end();
         }
 
     }
@@ -60,8 +67,7 @@ public class TextActor extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        // font.setColor(Color.valueOf(color).r, Color.valueOf(color).g, Color.valueOf(color).b, alpha);
-        font.setColor(Color.valueOf(color).r, Color.valueOf(color).g, Color.valueOf(color).b, 1);
+        font.setColor(Color.valueOf(color).r, Color.valueOf(color).g, Color.valueOf(color).b, alpha);
         font.draw(batch, textLine, getX(), getY());
     }
 

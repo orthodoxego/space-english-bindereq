@@ -37,7 +37,7 @@ public class GameScreen implements Screen {
         this.manager = manager;
         this.font = font;
 
-        setGameStage();
+        // setGameStage();
         setNextLevelStage(1);
     }
 
@@ -50,8 +50,6 @@ public class GameScreen implements Screen {
     public void setGameStage() {
         currentStage = null;
         currentStage = new GameStage(this, setup, viewport, camera);
-        SpaceEnglishCore.log("Smena");
-        setNextLevelStage(2);
     }
 
     @Override
@@ -68,7 +66,7 @@ public class GameScreen implements Screen {
         currentStage.act(delta);
         currentStage.draw();
 
-        // SpaceEnglishCore.log(this.getClass().toString(), "" + delta);
+        // SpaceEnglishCore.log(this.getClass().toString(), "" + currentStage);
     }
 
     @Override
