@@ -42,11 +42,16 @@ public class GameScreen implements Screen {
     }
 
     public void setNextLevelStage(int n) {
+        currentStage = null;
+        SpaceEnglishCore.log("OK " + n);
         currentStage = new NextLevelStage(this, setup, viewport, camera, n, font.getManropeBold14px(), font.getGlyphLayout());
     }
 
     public void setGameStage() {
+        currentStage = null;
         currentStage = new GameStage(this, setup, viewport, camera);
+        SpaceEnglishCore.log("Smena");
+        setNextLevelStage(2);
     }
 
     @Override

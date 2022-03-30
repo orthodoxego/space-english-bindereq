@@ -23,7 +23,7 @@ public class NextLevelStage extends StageParent {
         String out = "" + numberLevel;
         if (numberLevel < 10) out = "0" + out;
 
-        textActor = new TextActor(0, 0, "LEVEL " + out, bitmapFont, glyphLayout, "#FF9800");
+        textActor = new TextActor(gameScreen,0, 0, "LEVEL " + out, bitmapFont, glyphLayout, "#FF9800");
         addActor(textActor);
     }
 
