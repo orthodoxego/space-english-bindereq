@@ -8,9 +8,10 @@ public class GdxViewport {
     public static float TOP;
     public static float BOTTOM;
     public static float HEIGHT;
+    public static float ratio;
 
     public static void resize(int width, int height) {
-        float ratio = (float) height / width;
+        ratio = (float) height / width;
         float viewportHeight = WORLD_WIDTH * ratio;
 
         BOTTOM = (WORLD_HEIGHT - viewportHeight) / 2;

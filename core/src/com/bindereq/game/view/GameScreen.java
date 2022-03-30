@@ -7,9 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.bindereq.game.SpaceEnglishCore;
+import com.bindereq.game.font.Font;
 import com.bindereq.game.settings.GdxViewport;
 import com.bindereq.game.settings.Setup;
 import com.bindereq.game.stages.GameStage;
+import com.bindereq.game.stages.NextLevelStage;
 
 public class GameScreen implements Screen {
 
@@ -19,19 +21,32 @@ public class GameScreen implements Screen {
     OrthographicCamera camera;
     AssetManager manager;
     Stage currentStage;
+    Font font;
 
-    public GameScreen(SpaceEnglishCore spaceEnglishCore, Setup setup, Viewport viewport, OrthographicCamera camera, AssetManager manager) {
+    public GameScreen(SpaceEnglishCore spaceEnglishCore,
+                      Setup setup,
+                      Viewport viewport,
+                      OrthographicCamera camera,
+                      AssetManager manager,
+                      Font font) {
+
         this.spaceEnglishCore = spaceEnglishCore;
         this.setup = setup;
         this.viewport = viewport;
         this.camera = camera;
         this.manager = manager;
+        this.font = font;
 
         setGameStage();
+        setNextLevelStage(1);
+    }
+
+    public void setNextLevelStage(int n) {
+        currentStage = new NextLevelStage(this, setup, viewport, camera, n, font.getManropeBold14px(), font.getGlyphLayout());
     }
 
     public void setGameStage() {
-        currentStage = new GameStage(this, setup, viewport, camera, manager);
+        currentStage = new GameStage(this, setup, viewport, camera);
     }
 
     @Override
