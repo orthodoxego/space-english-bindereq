@@ -30,8 +30,9 @@ public class NextLevelStage extends StageParent {
         super.act(delta);
     }
 
+    @Override
     public void end() {
         textActor.remove();
-        gameScreen.setNextLevelStage((int) (Math.random() * 1000));
+        gameScreen.setNextLevelStage((int) (Math.random() * 50));
     }
 }

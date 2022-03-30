@@ -24,4 +24,8 @@ public class StageParent extends Stage {
     public void act(float delta) {
         super.act(delta);
     }
+
+    public void end() {
+
+    }
 }

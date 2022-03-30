@@ -2,11 +2,8 @@ package com.bindereq.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -30,11 +27,10 @@ public class SpaceEnglishCore extends ApplicationAdapter {
 
 	// private SimpleStage stage;
 
-
 	@Override
 	public void create () {
 		camera = new OrthographicCamera();
-		camera.setToOrtho(true, GdxViewport.WORLD_WIDTH * GdxViewport.ratio, GdxViewport.WORLD_HEIGHT * GdxViewport.ratio);
+		camera.setToOrtho(true, GdxViewport.WORLD_WIDTH, GdxViewport.WORLD_HEIGHT);
 		viewport = new FillViewport(GdxViewport.WORLD_WIDTH, GdxViewport.WORLD_HEIGHT, camera);
 
 		manager = new AssetManager();
@@ -66,7 +62,6 @@ public class SpaceEnglishCore extends ApplicationAdapter {
 			gameScreen.render(Gdx.graphics.getDeltaTime());
 		}
 	}
-
 
 	@Override
 	public void resize(int width, int height) {

@@ -8,21 +8,22 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.bindereq.game.SpaceEnglishCore;
 import com.bindereq.game.settings.GdxViewport;
 import com.bindereq.game.stages.NextLevelStage;
+import com.bindereq.game.stages.StageParent;
 import com.bindereq.game.view.GameScreen;
 
 public class TextActor extends Actor {
 
-    NextLevelStage nextLevelStage;
+    StageParent stageParent;
     float x, y, width, height, scaleX = 1.0f, scaleY = 1.0f;
     BitmapFont font;
     String textLine, color;
     int widthText, heightText;
-    int[] timeAlpha = new int[] {1, 2, 4};
+    float[] timeAlpha = new float[] {0.3f, 1, 3};
     float time = 0.0f, alpha = 0.0f;
 
 
-    public TextActor(NextLevelStage nextLevelStage, float x, float y, String textLine, BitmapFont bitmapFont, GlyphLayout glyphLayout, String color) {
-        this.nextLevelStage = nextLevelStage;
+    public TextActor(StageParent stageParent, float x, float y, String textLine, BitmapFont bitmapFont, GlyphLayout glyphLayout, String color) {
+        this.stageParent = stageParent;
         this.x = x;
         this.y = y;
         this.textLine = textLine;
@@ -34,15 +35,9 @@ public class TextActor extends Actor {
         widthText = (int) glyphLayout.width;
         heightText = (int) glyphLayout.height;
         if (this.x == 0 && this.y == 0) {
-            this.x = (GdxViewport.WORLD_WIDTH / GdxViewport.ratio - widthText) / 2;
-            this.y = (GdxViewport.WORLD_HEIGHT / GdxViewport.ratio - heightText) / 2;
+            this.x = (GdxViewport.WORLD_WIDTH - widthText) / 2;
+            this.y = (GdxViewport.WORLD_HEIGHT - heightText) / 2;
         }
-
-
-
-
-        SpaceEnglishCore.log("Create textactor " + GdxViewport.WORLD_WIDTH + " " + GdxViewport.WORLD_HEIGHT + " " + GdxViewport.ratio);
-
     }
 
     @Override
@@ -54,12 +49,12 @@ public class TextActor extends Actor {
         // Проявление и выцветание шрифта
         if (time < timeAlpha[0]) alpha += 0.03f;
         else if (time < timeAlpha[1]) alpha = 1.0f;
-        else if (time < timeAlpha[2]) alpha -= 0.01f;
+        else if (time < timeAlpha[2]) alpha -= 0.05f;
 
         if (alpha > 1.0f) alpha = 1.0f;
         else if (alpha < 0.0f) {
             alpha = 0.0f;
-            nextLevelStage.end();
+            stageParent.end();
         }
 
     }
