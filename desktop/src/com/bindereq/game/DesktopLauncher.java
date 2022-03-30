@@ -8,9 +8,9 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
-		int WIDTH = 1920;
-		int HEIGHT = 1080;
-		float SCALE = 1.5f;
+		int WIDTH = 1080;
+		int HEIGHT = 1920;
+		float SCALE = 2.0f;
 
 		config.setWindowSizeLimits((int) (WIDTH / SCALE),
 				(int) (HEIGHT / SCALE),
