@@ -12,6 +12,7 @@ import com.bindereq.game.SpaceEnglishCore;
 import com.bindereq.game.font.Font;
 import com.bindereq.game.settings.GdxViewport;
 import com.bindereq.game.settings.Setup;
+import com.bindereq.game.settings.Textures;
 import com.bindereq.game.stages.GameStage;
 import com.bindereq.game.stages.NextLevelStage;
 
@@ -27,13 +28,15 @@ public class GameScreen implements Screen {
     AssetManager manager;
     Stage currentStage;
     Font font;
+    Textures textures;
 
     public GameScreen(SpaceEnglishCore spaceEnglishCore,
                       Setup setup,
                       Viewport viewport,
                       OrthographicCamera camera,
                       AssetManager manager,
-                      Font font) {
+                      Font font,
+                      Textures textures) {
 
         this.spaceEnglishCore = spaceEnglishCore;
         this.setup = setup;
@@ -41,6 +44,7 @@ public class GameScreen implements Screen {
         this.camera = camera;
         this.manager = manager;
         this.font = font;
+        this.textures = textures;
 
         // setGameStage();
 
@@ -49,12 +53,12 @@ public class GameScreen implements Screen {
 
     public void setNextLevelStage(int n) {
         currentStage = null;
-        currentStage = new NextLevelStage(this, setup, viewport, camera, n, font.getManropeBold14px(), font.getGlyphLayout());
+        currentStage = new NextLevelStage(this, setup, viewport, camera, textures, n, font.getManropeBold14px(), font.getGlyphLayout());
     }
 
     public void setGameStage() {
         currentStage = null;
-        currentStage = new GameStage(this, setup, viewport, camera);
+        currentStage = new GameStage(this, setup, viewport, camera, textures);
     }
 
     @Override

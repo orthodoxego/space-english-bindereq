@@ -11,13 +11,14 @@ import com.bindereq.game.actors.TextActor;
 import com.bindereq.game.font.Font;
 import com.bindereq.game.settings.GdxViewport;
 import com.bindereq.game.settings.Setup;
+import com.bindereq.game.settings.Textures;
 import com.bindereq.game.view.GameScreen;
 
 public class NextLevelStage extends StageParent {
     TextActor textActor;
 
-    public NextLevelStage(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera, int numberLevel, BitmapFont bitmapFont, GlyphLayout glyphLayout) {
-        super(gameScreen, setup, viewport, camera);
+    public NextLevelStage(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera, Textures textures, int numberLevel, BitmapFont bitmapFont, GlyphLayout glyphLayout) {
+        super(gameScreen, setup, viewport, camera, textures);
         String out = "" + numberLevel;
         if (numberLevel < 10) out = "0" + out;
 
@@ -32,7 +33,6 @@ public class NextLevelStage extends StageParent {
 
     @Override
     public void end() {
-        textActor.remove();
-        gameScreen.setNextLevelStage((int) (Math.random() * 50));
+        gameScreen.setGameStage();
     }
 }

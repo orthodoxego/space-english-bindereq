@@ -3,7 +3,7 @@ package com.bindereq.game.settings;
 public class GdxViewport {
 
     public static final float WORLD_WIDTH = 960f;
-    public static final float WORLD_HEIGHT = 1280f;
+    public static final float WORLD_HEIGHT = 1600;
     public static final float FIXED_BLOCK = WORLD_WIDTH / 25;
     public static float TOP;
     public static float BOTTOM;

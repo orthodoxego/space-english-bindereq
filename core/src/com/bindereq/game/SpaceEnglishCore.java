@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.bindereq.game.font.Font;
 import com.bindereq.game.settings.GdxViewport;
 import com.bindereq.game.settings.Setup;
+import com.bindereq.game.settings.Textures;
 import com.bindereq.game.view.GameScreen;
 
 public class SpaceEnglishCore extends ApplicationAdapter {
@@ -20,6 +21,7 @@ public class SpaceEnglishCore extends ApplicationAdapter {
 	private Font font;
 
 	GameScreen gameScreen;
+	Textures textures;
 	Setup setup;
 
 	// Идёт ли игра?
@@ -37,8 +39,9 @@ public class SpaceEnglishCore extends ApplicationAdapter {
 
 		setup = new Setup();
 		font = new Font();
+		textures = new Textures();
 
-		gameScreen = new GameScreen(this, setup, viewport, camera, manager, font);
+		gameScreen = new GameScreen(this, setup, viewport, camera, manager, font, textures);
 
 	}
 
