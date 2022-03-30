@@ -36,7 +36,14 @@ public class SpaceEnglishCore extends ApplicationAdapter {
 	public void render () {
 		ScreenUtils.clear(0, 0, 0, 1);
 	}
-	
+
+	@Override
+	public void resize(int width, int height) {
+		super.resize(width, height);
+		viewport.update(width, height);
+		GdxViewport.resize(width, height);
+	}
+
 	@Override
 	public void dispose () {
 	}

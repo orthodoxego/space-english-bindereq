@@ -2,8 +2,8 @@ package com.bindereq.game.settings;
 
 public class GdxViewport {
 
-    public static final float WORLD_WIDTH = 1920f;
-    public static final float WORLD_HEIGHT = 1080f;
+    public static final float WORLD_WIDTH = 1080f;
+    public static final float WORLD_HEIGHT = 1920f;
     public static float TOP;
     public static float BOTTOM;
     public static float HEIGHT;
