@@ -1,5 +1,7 @@
 package com.bindereq.game.view;
 
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -12,6 +14,9 @@ import com.bindereq.game.settings.GdxViewport;
 import com.bindereq.game.settings.Setup;
 import com.bindereq.game.stages.GameStage;
 import com.bindereq.game.stages.NextLevelStage;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameScreen implements Screen {
 
@@ -38,12 +43,12 @@ public class GameScreen implements Screen {
         this.font = font;
 
         // setGameStage();
+
         setNextLevelStage(1);
     }
 
     public void setNextLevelStage(int n) {
         currentStage = null;
-        SpaceEnglishCore.log("OK " + n);
         currentStage = new NextLevelStage(this, setup, viewport, camera, n, font.getManropeBold14px(), font.getGlyphLayout());
     }
 

@@ -17,7 +17,7 @@ public class DesktopLauncher {
 				(int) (WIDTH / SCALE),
 				(int) (HEIGHT / SCALE));
 
-		config.setBackBufferConfig(8, 8, 8, 8, 16, 0, 5);
+		config.setBackBufferConfig(8, 8, 8, 8, 16, 4, 8);
 
 		config.setForegroundFPS(120);
 		new Lwjgl3Application(new SpaceEnglishCore(), config);

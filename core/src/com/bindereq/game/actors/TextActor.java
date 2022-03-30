@@ -1,15 +1,13 @@
 package com.bindereq.game.actors;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.bindereq.game.SpaceEnglishCore;
 import com.bindereq.game.settings.GdxViewport;
-import com.bindereq.game.stages.NextLevelStage;
 import com.bindereq.game.stages.StageParent;
-import com.bindereq.game.view.GameScreen;
 
 public class TextActor extends Actor {
 
@@ -30,7 +28,10 @@ public class TextActor extends Actor {
         this.color = color;
         font = bitmapFont;
 
+
         glyphLayout.setText(font, textLine);
+        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear,
+                Texture.TextureFilter.Linear);
 
         widthText = (int) glyphLayout.width;
         heightText = (int) glyphLayout.height;
