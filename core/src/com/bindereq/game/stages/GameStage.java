@@ -18,10 +18,16 @@ public class GameStage extends StageParent {
     public GameStage(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera, Textures textures) {
         super(gameScreen, setup, viewport, camera, textures);
 
-        Brain brain = new Brain(textures.getBrains(), GdxViewport.WORLD_WIDTH / 2 - 64, GdxViewport.WORLD_HEIGHT - 192, 128, 128, 0);
+        addActors();
+    }
+
+    /** Добавит актёров на сцену. */
+    public void addActors() {
+        Brain brain = new Brain(textures.getBrains(), GdxViewport.WORLD_WIDTH / 2 - 64, GdxViewport.WORLD_HEIGHT - 256, 128, 128, 0);
         addActor(brain);
     }
 
+    /** Ежекадровое обновление. */
     @Override
     public void act(float delta) {
         super.act(delta);

@@ -12,8 +12,10 @@ public class Brain extends Actor {
     int levelBrain;
 
     public Brain(TextureRegion[] textureRegion, float x, float y, float width, float height, int levelBrain) {
+
         setName("Brain");
         this.textureRegion = textureRegion;
+
         setX(x);
         setY(y);
         setWidth(width);
@@ -21,7 +23,9 @@ public class Brain extends Actor {
         setOrigin(1, 1);
         setRotation(0);
         setScale(1, 1);
+
         this.levelBrain = levelBrain;
+
     }
 
     @Override
