@@ -37,6 +37,7 @@ public class InputGame implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        gameStage.press_mouse(screenX, screenY);
         return false;
     }
 
