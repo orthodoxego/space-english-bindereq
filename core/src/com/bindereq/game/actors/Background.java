@@ -14,6 +14,7 @@ public class Background extends Actor {
     int h;
 
     public Background(TextureRegion textureRegion, Model model) {
+        setName("Background");
         this.textureRegion = textureRegion;
         this.model = model;
         setWidth(textureRegion.getRegionWidth());

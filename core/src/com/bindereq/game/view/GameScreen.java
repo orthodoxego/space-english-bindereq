@@ -2,6 +2,7 @@ package com.bindereq.game.view;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.bindereq.game.SpaceEnglishCore;
 import com.bindereq.game.font.Font;
+import com.bindereq.game.input.InputGame;
 import com.bindereq.game.settings.GdxViewport;
 import com.bindereq.game.settings.Setup;
 import com.bindereq.game.settings.Textures;
@@ -60,6 +62,9 @@ public class GameScreen implements Screen {
     public void setGameStage() {
         currentStage = null;
         currentStage = new GameStage(this, setup, viewport, camera, textures);
+        InputProcessor inputProcessor = new InputGame(currentStage);
+        Gdx.input.setInputProcessor(inputProcessor);
+
     }
 
     @Override

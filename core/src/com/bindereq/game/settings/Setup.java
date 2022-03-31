@@ -6,6 +6,8 @@ public class Setup {
     public static final String FONT_CHARS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
 
     int defaultSpeed = 100;
+    int default_move_brain = 10;
+    int increment_move_brain = 2;
 
     public int getDefaultSpeed() {
         return defaultSpeed;
