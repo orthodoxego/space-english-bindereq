@@ -8,6 +8,7 @@ public class Setup {
     int defaultSpeed = 100;
     int default_move_brain = 10;
     float decrement_move_brain = 15f;
+    public static float speed_rocket = 400.0f;
 
     public int getDefaultSpeed() {
         return defaultSpeed;

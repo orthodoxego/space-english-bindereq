@@ -11,7 +11,7 @@ public class Brain extends Actor {
 
     TextureRegion[] textureRegion;
     int levelBrain;
-    float move;
+    public float move;
     Setup setup;
 
     public Brain(Setup setup, TextureRegion[] textureRegion, float x, float y, float width, float height, int levelBrain) {

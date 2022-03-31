@@ -17,10 +17,11 @@ public class InputGame implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        if (keycode == Input.Keys.LEFT) gameStage.press_key_move_brain(Const.KEY.LEFT);
-        if (keycode == Input.Keys.RIGHT) gameStage.press_key_move_brain(Const.KEY.RIGHT);
-        if (keycode == Input.Keys.UP) gameStage.press_key_move_brain(Const.KEY.UP);
-        if (keycode == Input.Keys.DOWN) gameStage.press_key_move_brain(Const.KEY.DOWN);
+        if (keycode == Input.Keys.SPACE) gameStage.press_key_move_brain(Const.KEY.FIRE);
+        else if (keycode == Input.Keys.LEFT) gameStage.press_key_move_brain(Const.KEY.LEFT);
+        else if (keycode == Input.Keys.RIGHT) gameStage.press_key_move_brain(Const.KEY.RIGHT);
+        else if (keycode == Input.Keys.UP) gameStage.press_key_move_brain(Const.KEY.UP);
+        else if (keycode == Input.Keys.DOWN) gameStage.press_key_move_brain(Const.KEY.DOWN);
         return false;
     }
 

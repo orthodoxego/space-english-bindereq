@@ -8,7 +8,7 @@ public class Textures {
     private TextureRegion[] brains;
     private TextureRegion[] circles;
 
-    private TextureRegion ammo;
+    private TextureRegion rocket;
     private TextureRegion background;
 
     public Textures() {
@@ -25,7 +25,7 @@ public class Textures {
         background = getTextureRegionFromMap(0, 0, 480, 800, false, true, load);
 
         load = new Texture("png/map01.png");
-        ammo = getTextureRegionFromMap(0, 64, 64, 64, false, true, load);
+        rocket = getTextureRegionFromMap(0, 64, 64, 64, false, true, load);
 
         circles = new TextureRegion[4];
         circles[0] = getTextureRegionFromMap(0, 0, 64, 64, false, true, load);
@@ -39,8 +39,8 @@ public class Textures {
         return brains;
     }
 
-    public TextureRegion getAmmo() {
-        return ammo;
+    public TextureRegion getRocket() {
+        return rocket;
     }
 
     public TextureRegion getBackground() {
