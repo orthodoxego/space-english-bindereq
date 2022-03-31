@@ -36,7 +36,14 @@ public class Brain extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
+
+        batch.setColor(0, 32.0f / 255, 32f / 255, 0.5f);
+        batch.draw(textureRegion[levelBrain], getX() + 64, getY() + 64, getOriginX(), getOriginY(), getWidth(), getHeight(), 0.8f, 0.8f, getRotation());
+
+        batch.setColor(1, 1, 1, 1);
         batch.draw(textureRegion[levelBrain], getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+
+
 
     }
 }

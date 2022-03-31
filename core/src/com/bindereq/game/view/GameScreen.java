@@ -48,7 +48,8 @@ public class GameScreen implements Screen {
 
         // setGameStage();
 
-        setNextLevelStage(1);
+        // setNextLevelStage(1);
+        setGameStage();
     }
 
     public void setNextLevelStage(int n) {
