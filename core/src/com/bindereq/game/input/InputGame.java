@@ -1,22 +1,26 @@
 package com.bindereq.game.input;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.bindereq.game.SpaceEnglishCore;
+import com.bindereq.game.settings.Const;
 import com.bindereq.game.stages.GameStage;
 
 public class InputGame implements InputProcessor {
 
-    Stage gameStage;
+    GameStage gameStage;
 
-    public InputGame(Stage gameStage) {
+    public InputGame(GameStage gameStage) {
         this.gameStage = gameStage;
     }
 
     @Override
     public boolean keyDown(int keycode) {
-        SpaceEnglishCore.log(keycode + "");
-        if (keycode == )
+        if (keycode == Input.Keys.LEFT) gameStage.press_key_move_brain(Const.KEY.LEFT);
+        if (keycode == Input.Keys.RIGHT) gameStage.press_key_move_brain(Const.KEY.RIGHT);
+        if (keycode == Input.Keys.UP) gameStage.press_key_move_brain(Const.KEY.UP);
+        if (keycode == Input.Keys.DOWN) gameStage.press_key_move_brain(Const.KEY.DOWN);
         return false;
     }
 

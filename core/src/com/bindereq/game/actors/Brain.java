@@ -11,6 +11,7 @@ public class Brain extends Actor {
 
     TextureRegion[] textureRegion;
     int levelBrain;
+    float move;
     Setup setup;
 
     public Brain(Setup setup, TextureRegion[] textureRegion, float x, float y, float width, float height, int levelBrain) {
@@ -26,6 +27,7 @@ public class Brain extends Actor {
         setOrigin(1, 1);
         setRotation(0);
         setScale(1, 1);
+        move = 0;
 
         this.levelBrain = levelBrain;
 
@@ -34,6 +36,21 @@ public class Brain extends Actor {
     @Override
     public void act(float delta) {
         super.act(delta);
+        if (move < 0) {
+            move += setup.getDecrement_move_brain() * delta;
+            if (getX() < 0) {
+                move = -move;
+                setX(0);
+            }
+        } else if (move > 0) {
+            move -= setup.getDecrement_move_brain() * delta;
+            if (getX() > GdxViewport.WORLD_WIDTH - textureRegion[0].getRegionWidth()) {
+                move = -move;
+                setX(GdxViewport.WORLD_WIDTH - textureRegion[0].getRegionWidth());
+            }
+        }
+
+        setX(getX() + move);
     }
 
     @Override
@@ -41,12 +58,24 @@ public class Brain extends Actor {
         super.draw(batch, parentAlpha);
 
         batch.setColor(0, 32.0f / 255, 32f / 255, 0.5f);
-        batch.draw(textureRegion[levelBrain], getX() + 64 + (int) (Math.random() * 7), getY() + 64 + (int) (Math.random() * 5), getOriginX(), getOriginY(), getWidth(), getHeight(), 0.8f, 0.8f, getRotation());
+        batch.draw(textureRegion[levelBrain], getX() + 64 + (int) (Math.random() * 8), getY() + 64 + (int) (Math.random() * 8), getOriginX(), getOriginY(), getWidth(), getHeight(), 0.8f, 0.8f, getRotation());
 
         batch.setColor(1, 1, 1, 1);
         batch.draw(textureRegion[levelBrain], getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
 
 
 
+    }
+
+    public void move_left() {
+        move += -setup.getDefault_move_brain();
+        if (move < -setup.getDefault_move_brain() * 2)
+            move = -setup.getDefault_move_brain() * 2;
+    }
+
+    public void move_right() {
+        move += setup.getDefault_move_brain();
+        if (move > setup.getDefault_move_brain() * 2)
+            move = setup.getDefault_move_brain() * 2;
     }
 }

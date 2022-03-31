@@ -37,17 +37,25 @@ public class GameStage extends StageParent {
     @Override
     public void act(float delta) {
         super.act(delta);
+        model.act(delta);
     }
 
     /** Реакция на клавиши. */
     public void press_key_move_brain(Const.KEY key) {
         switch (key) {
             case LEFT:
-                //brain.move_left();
+                brain.move_left();
                 break;
             case RIGHT:
-                //brain.move_right();
+                brain.move_right();
                 break;
+            case UP:
+                model.increase_speed();
+                break;
+            case DOWN:
+                model.decrease_speed();
+                break;
+
         }
     }
 

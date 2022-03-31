@@ -61,8 +61,9 @@ public class GameScreen implements Screen {
 
     public void setGameStage() {
         currentStage = null;
-        currentStage = new GameStage(this, setup, viewport, camera, textures);
-        InputProcessor inputProcessor = new InputGame(currentStage);
+        GameStage stage = new GameStage(this, setup, viewport, camera, textures);
+        currentStage = stage;
+        InputProcessor inputProcessor = new InputGame(stage);
         Gdx.input.setInputProcessor(inputProcessor);
 
     }

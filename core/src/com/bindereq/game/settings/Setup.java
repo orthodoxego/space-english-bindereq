@@ -7,7 +7,7 @@ public class Setup {
 
     int defaultSpeed = 100;
     int default_move_brain = 10;
-    int increment_move_brain = 2;
+    float decrement_move_brain = 15f;
 
     public int getDefaultSpeed() {
         return defaultSpeed;
@@ -15,5 +15,21 @@ public class Setup {
 
     public void setDefaultSpeed(int defaultSpeed) {
         this.defaultSpeed = defaultSpeed;
+    }
+
+    public int getDefault_move_brain() {
+        return default_move_brain;
+    }
+
+    public void setDefault_move_brain(int default_move_brain) {
+        this.default_move_brain = default_move_brain;
+    }
+
+    public float getDecrement_move_brain() {
+        return decrement_move_brain;
+    }
+
+    public void setDecrement_move_brain(float decrement_move_brain) {
+        this.decrement_move_brain = decrement_move_brain;
     }
 }
