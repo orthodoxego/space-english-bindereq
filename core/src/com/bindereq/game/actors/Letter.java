@@ -3,30 +3,36 @@ package com.bindereq.game.actors;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.bindereq.game.font.Font;
 import com.bindereq.game.gamemodel.Model;
 import com.bindereq.game.settings.GdxViewport;
 import com.bindereq.game.settings.Setup;
 import com.bindereq.game.settings.Textures;
 
-public class Explosions extends Actor {
+public class Letter extends Actor {
 
     Model model;
-    float speedX, speedY, time;
-    int frame;
+    float speedX, speedY;
+    int number;
     public boolean enabled = true;
-    TextureRegion[] moves;
+    TextureRegion letter;
+    String chr;
+    boolean isReal;
+    Font font;
 
-    public Explosions(Model model, TextureRegion[] moves, float x, float y) {
-        setName("Explosions");
+    public Letter(String chr, boolean isReal, Font font, Model model, Textures textures, float x, float y, int number) {
+        setName("Letter " + number);
+        this.chr = chr;
+        this.isReal = isReal;
         this.model = model;
         // this.back = textures.getCircles()[0];
-        this.moves = moves;
-        this.frame = 0;
+        this.letter = textures.getCircles()[0];
+        this.number = number;
 
         setX(x);
         setY(y);
-        setWidth(moves[0].getRegionWidth() * 4);
-        setHeight(moves[0].getRegionHeight() * 4);
+        setWidth(letter.getRegionWidth());
+        setHeight(letter.getRegionHeight());
         setOrigin(1, 1);
         setRotation(0);
         setScale(1f, 1f);
@@ -36,22 +42,12 @@ public class Explosions extends Actor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        time += delta;
-        if (time > 0.12f) {
-            frame += 1;
-            time = 0;
-        }
-        if (frame >= moves.length) {
-            frame = 0;
-            enabled = false;
-        }
-
         setX(getX() + getSpeedX() * delta);
         setY(getY() + (getSpeedY() + model.getSpeed()) * delta);
 
-        if (getX() > GdxViewport.WORLD_WIDTH - moves[0].getRegionWidth()) {
+        if (getX() > GdxViewport.WORLD_WIDTH - letter.getRegionWidth()) {
             setSpeedX(-getSpeedX());
-            setX(GdxViewport.WORLD_WIDTH - moves[0].getRegionWidth());
+            setX(GdxViewport.WORLD_WIDTH - letter.getRegionWidth());
         } else if (getX() < 0) {
             setSpeedX(-getSpeedX());
             setX(0);
@@ -65,17 +61,13 @@ public class Explosions extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 
-        batch.setColor(0, 0.24f, 0.12f, 0.4f);
+        batch.setColor(0, 32.0f / 255, 32f / 255, 0.4f);
         // batch.draw(back, getX() + Setup.shadow_x + (int) (Math.random() * 8), getY() + Setup.shadow_y + (int) (Math.random() * 8), getOriginX(), getOriginY(), getWidth(), getHeight(), 0.9f, 0.9f, getRotation());
-        batch.draw(moves[moves.length - 1 - frame], getX() - getWidth() / 2 + Setup.shadow_x, getY() - getHeight() / 2 + Setup.shadow_y, getOriginX(), getOriginY(), getWidth() * 2, getHeight() * 2, getScaleX(), getScaleY(), getRotation());
-
-        batch.setColor(0.9f, 0.2f, 0.7f, 0.7f);
-        batch.draw(moves[moves.length - 1 - frame], getX() - getWidth() / 2, getY() - getHeight() / 2, getOriginX(), getOriginY(), getWidth() * 2, getHeight() * 2, getScaleX(), getScaleY(), getRotation());
+        batch.draw(letter, getX() + Setup.shadow_x + (int) (Math.random() * 8), getY() + Setup.shadow_y + (int) (Math.random() * 8), getOriginX(), getOriginY(), getWidth(), getHeight(), 0.9f, 0.9f, getRotation());
 
         batch.setColor(1, 1, 1, 1);
         // batch.draw(back, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
-        batch.draw(moves[frame], getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
-
+        batch.draw(letter, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
 
     }
 
