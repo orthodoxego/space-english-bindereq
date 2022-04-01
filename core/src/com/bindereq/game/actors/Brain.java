@@ -58,7 +58,7 @@ public class Brain extends Actor {
         }
 
         private void addFuel() {
-            fuel += 1000;
+            fuel += 2000;
             if (fuel > 10000) {
                 fuel = 10000;
             }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.bindereq.game.SpaceEnglishCore;
 import com.bindereq.game.actors.Background;
 import com.bindereq.game.actors.Brain;
+import com.bindereq.game.actors.Explosions;
 import com.bindereq.game.actors.Fire;
 import com.bindereq.game.actors.Fuel;
 import com.bindereq.game.gamemodel.Model;
@@ -24,6 +25,7 @@ public class GameStage extends StageParent {
     Brain brain;
     Vector<Fire> fire = new Vector<>();
     Vector<Fuel> fuel = new Vector<>();
+    Vector<Explosions> explosions = new Vector<>();
     int countFrame = 0;
     float fuelFrame = 0;
 
@@ -55,34 +57,51 @@ public class GameStage extends StageParent {
         countFrame += 1;
         if (countFrame > 1000) countFrame = 0;
 
-        // Прорисовка и удаление ракет
-        for (int i = fire.size() - 1; i > -1; i--) {
-            fire.elementAt(i).act(delta);
-            if (!fire.elementAt(i).enabled) {
-                fire.elementAt(i).remove();
-                fire.remove(fire.elementAt(i));
-            }
-        }
-
         // Добавление заправочных юнитов
         fuelFrame += delta;
         if (fuelFrame > 3) {
             fuelFrame = 0;
             addFuel();
         }
-        // Прорисовка и удаление заправочных юнитов
+
+        // Проверить столкновение снаряда и заправки
+        if (fuel.size() > 0 && fire.size() > 0 && countFrame % 3 == 0) checkCollisionFuelAndFire();
+
+        // Каждые 5 кадров удаляются отключенные объекты
+        if (countFrame % 5 == 0) deleteDisabledObjects();
+
+        // Проверить столкновение заправки и героя
+        if (fuel.size() > 0 && countFrame % 10 == 0) {
+            checkCollisionFuelAndPlayer();
+        }
+    }
+
+    private void deleteDisabledObjects() {
+        // Удаление заправочных юнитов
         for (int i = fuel.size() - 1; i > -1; i--) {
-            fuel.elementAt(i).act(delta);
             if (!fuel.elementAt(i).enabled) {
                 fuel.elementAt(i).remove();
                 fuel.remove(fuel.elementAt(i));
             }
         }
 
-        // Проверить столкновение заправки и героя
-        if (fuel.size() > 0 && countFrame % 10 == 0) {
-            checkCollisionFuelAndPlayer();
+        // Удаление ракет
+        for (int i = fire.size() - 1; i > -1; i--) {
+            if (!fire.elementAt(i).enabled) {
+                fire.elementAt(i).remove();
+                fire.remove(fire.elementAt(i));
+            }
         }
+
+        // Удаление взрывов
+        for (int i = explosions.size() - 1; i > -1; i--) {
+            if (!explosions.elementAt(i).enabled) {
+                explosions.elementAt(i).remove();
+                explosions.remove(explosions.elementAt(i));
+            }
+        }
+
+
     }
 
     private boolean isCollision(Actor a, Actor b) {
@@ -97,6 +116,28 @@ public class GameStage extends StageParent {
             return true;
         }
         return false;
+    }
+
+    private boolean checkCollisionFuelAndFire() {
+        boolean res = false;
+        for (Fuel f: fuel) {
+            for (Fire fr: fire) {
+                if (isCollision(f, fr)) {
+                    fr.enabled = false;
+                    f.enabled = false;
+                    Explosions e = new Explosions(model,
+                            textures.getExplosions(),
+                            f.getX() - 32, f.getY() - 32);
+                    e.setSpeedX(0);
+                    e.setSpeedY(f.getSpeedY());
+                    explosions.add(e);
+                    addActor(e);
+                    brain.toFront();
+                    res = true;
+                }
+            }
+        }
+        return res;
     }
 
     private void checkCollisionFuelAndPlayer() {

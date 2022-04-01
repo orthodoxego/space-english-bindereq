@@ -8,26 +8,25 @@ import com.bindereq.game.settings.GdxViewport;
 import com.bindereq.game.settings.Setup;
 import com.bindereq.game.settings.Textures;
 
-public class Fuel extends Actor {
+public class Explosions extends Actor {
 
     Model model;
-    float speedX, speedY;
-    int number;
+    float speedX, speedY, time;
+    int frame;
     public boolean enabled = true;
-    TextureRegion fuelIco;
-    // TextureRegion back;
+    TextureRegion[] moves;
 
-    public Fuel(Model model, Textures textures, float x, float y, int number) {
-        setName("Fuel" + number);
+    public Explosions(Model model, TextureRegion[] moves, float x, float y) {
+        setName("Explosions");
         this.model = model;
         // this.back = textures.getCircles()[0];
-        this.fuelIco = textures.getFuelIco();
-        this.number = number;
+        this.moves = moves;
+        this.frame = 0;
 
         setX(x);
         setY(y);
-        setWidth(fuelIco.getRegionWidth());
-        setHeight(fuelIco.getRegionHeight());
+        setWidth(moves[0].getRegionWidth() * 4);
+        setHeight(moves[0].getRegionHeight() * 4);
         setOrigin(1, 1);
         setRotation(0);
         setScale(1f, 1f);
@@ -37,12 +36,22 @@ public class Fuel extends Actor {
     @Override
     public void act(float delta) {
         super.act(delta);
+        time += delta;
+        if (time > 0.15f) {
+            frame += 1;
+            time = 0;
+        }
+        if (frame >= moves.length) {
+            frame = 0;
+            enabled = false;
+        }
+
         setX(getX() + getSpeedX() * delta);
         setY(getY() + (getSpeedY() + model.getSpeed()) * delta);
 
-        if (getX() > GdxViewport.WORLD_WIDTH - fuelIco.getRegionWidth()) {
+        if (getX() > GdxViewport.WORLD_WIDTH - moves[0].getRegionWidth()) {
             setSpeedX(-getSpeedX());
-            setX(GdxViewport.WORLD_WIDTH - fuelIco.getRegionWidth());
+            setX(GdxViewport.WORLD_WIDTH - moves[0].getRegionWidth());
         } else if (getX() < 0) {
             setSpeedX(-getSpeedX());
             setX(0);
@@ -58,11 +67,11 @@ public class Fuel extends Actor {
 
         batch.setColor(0, 32.0f / 255, 32f / 255, 0.4f);
         // batch.draw(back, getX() + Setup.shadow_x + (int) (Math.random() * 8), getY() + Setup.shadow_y + (int) (Math.random() * 8), getOriginX(), getOriginY(), getWidth(), getHeight(), 0.9f, 0.9f, getRotation());
-        batch.draw(fuelIco, getX() + Setup.shadow_x + (int) (Math.random() * 8), getY() + Setup.shadow_y + (int) (Math.random() * 8), getOriginX(), getOriginY(), getWidth(), getHeight(), 0.9f, 0.9f, getRotation());
+        batch.draw(moves[frame], getX() + Setup.shadow_x + (int) (Math.random() * 8), getY() + Setup.shadow_y + (int) (Math.random() * 8), getOriginX(), getOriginY(), getWidth(), getHeight(), 0.9f, 0.9f, getRotation());
 
         batch.setColor(1, 1, 1, 1);
         // batch.draw(back, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
-        batch.draw(fuelIco, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+        batch.draw(moves[frame], getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
 
     }
 
