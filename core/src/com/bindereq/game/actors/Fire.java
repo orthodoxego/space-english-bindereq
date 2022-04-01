@@ -7,6 +7,8 @@ import com.bindereq.game.gamemodel.Model;
 import com.bindereq.game.settings.GdxViewport;
 import com.bindereq.game.settings.Setup;
 
+import java.util.Set;
+
 public class Fire extends Actor {
 
     Model model;
@@ -45,8 +47,8 @@ public class Fire extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 
-        batch.setColor(0, 32.0f / 255, 32f / 255, 0.5f);
-        batch.draw(textureRegion, getX() + 64 + (int) (Math.random() * 8), getY() + 64 + (int) (Math.random() * 8), getOriginX(), getOriginY(), getWidth(), getHeight(), 0.8f, 0.8f, getRotation());
+        batch.setColor(0, 32.0f / 255, 32f / 255, 0.4f);
+        batch.draw(textureRegion, getX() + Setup.shadow_x + (int) (Math.random() * 8), getY() + Setup.shadow_y + (int) (Math.random() * 8), getOriginX(), getOriginY(), getWidth(), getHeight(), 0.9f, 0.9f, getRotation());
 
         batch.setColor(1, 1, 1, 1);
         batch.draw(textureRegion, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());

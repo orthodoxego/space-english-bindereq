@@ -1,5 +1,6 @@
 package com.bindereq.game.input;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -37,7 +38,10 @@ public class InputGame implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        gameStage.press_mouse(screenX, screenY);
+        if (screenY > Gdx.graphics.getHeight() * 0.75f)
+            gameStage.press_mouse(screenX, screenY);
+        else
+            gameStage.press_key_move_brain(Const.KEY.FIRE);
         return false;
     }
 

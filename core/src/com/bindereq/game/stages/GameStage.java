@@ -72,8 +72,10 @@ public class GameStage extends StageParent {
                 model.decrease_speed();
                 break;
             case FIRE:
-                Fire f = new Fire(model, textures.getRocket(), brain.getX() + brain.getWidth() / 2 - 16, brain.getY(), fire.size());
+                Fire f = new Fire(model, textures.getRocket(), brain.getX() + brain.getWidth() / 2 - 16, brain.getY() - 32, fire.size());
+                // Скорость ракеты получает ускорение движения мозга
                 f.setSpeedX(brain.move * 5);
+                // Константа скорости ракеты
                 f.setSpeedY(Setup.speed_rocket);
                 fire.add(f);
                 addActor(f);
@@ -85,6 +87,6 @@ public class GameStage extends StageParent {
     public void press_mouse(int screenX, int screenY) {
         if (screenX < (brain.getX() + brain.getWidth() / 2) / GdxViewport.RATIO_HORIZONTAL) brain.move_left();
         if (screenX > (brain.getX() + brain.getWidth() / 2) / GdxViewport.RATIO_HORIZONTAL) brain.move_right();
-        SpaceEnglishCore.log((screenX) + " " + (brain.getX() + brain.getWidth() / 2) / GdxViewport.RATIO_HORIZONTAL);
+        // SpaceEnglishCore.log((screenX) + " " + (brain.getX() + brain.getWidth() / 2) / GdxViewport.RATIO_HORIZONTAL);
     }
 }
