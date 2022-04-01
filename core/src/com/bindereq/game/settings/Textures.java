@@ -10,6 +10,8 @@ public class Textures {
 
     private TextureRegion rocket;
     private TextureRegion background;
+    private TextureRegion fuelIco;
+    private TextureRegion redSquare, greenSquare, boxFuel;
 
     public Textures() {
         Texture load;
@@ -33,6 +35,23 @@ public class Textures {
         circles[2] = getTextureRegionFromMap(128, 0, 64, 64, false, true, load);
         circles[3] = getTextureRegionFromMap(196, 0, 64, 64, false, true, load);
 
+        redSquare = getTextureRegionFromMap(40, 128, 8, 8, false, true, load);
+        greenSquare = getTextureRegionFromMap(32, 128, 8, 8, false, true, load);
+        boxFuel = getTextureRegionFromMap(0, 128, 8, 64, false, true, load);
+
+        fuelIco = getTextureRegionFromMap(96, 64, 32, 32, false, true, load);
+    }
+
+    public TextureRegion getRedSquare() {
+        return redSquare;
+    }
+
+    public TextureRegion getGreenSquare() {
+        return greenSquare;
+    }
+
+    public TextureRegion getBoxFuel() {
+        return boxFuel;
     }
 
     public TextureRegion[] getBrains() {
@@ -55,5 +74,9 @@ public class Textures {
         TextureRegion tmp = new TextureRegion(texture, x, y, width, height);
         tmp.flip(flipX, flipY);
         return tmp;
+    }
+
+    public TextureRegion getFuelIco() {
+        return fuelIco;
     }
 }
