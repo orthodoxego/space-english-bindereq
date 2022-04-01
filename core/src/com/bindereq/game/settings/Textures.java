@@ -25,7 +25,7 @@ public class Textures {
         background = getTextureRegionFromMap(0, 0, 480, 800, false, true, load);
 
         load = new Texture("png/map01.png");
-        rocket = getTextureRegionFromMap(0, 64, 64, 64, false, true, load);
+        rocket = getTextureRegionFromMap(0, 64, 32, 32, false, true, load);
 
         circles = new TextureRegion[4];
         circles[0] = getTextureRegionFromMap(0, 0, 64, 64, false, true, load);
