@@ -69,14 +69,10 @@ public class Letter extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 
-        batch.setColor(0, 32.0f / 255, 32f / 255, 0.4f);
-        // batch.draw(back, getX() + Setup.shadow_x + (int) (Math.random() * 8), getY() + Setup.shadow_y + (int) (Math.random() * 8), getOriginX(), getOriginY(), getWidth(), getHeight(), 0.9f, 0.9f, getRotation());
-        batch.draw(letter, getX() + Setup.shadow_x + (int) (Math.random() * 8), getY() + Setup.shadow_y + (int) (Math.random() * 8), getOriginX(), getOriginY(), getWidth(), getHeight(), 0.9f, 0.9f, getRotation());
+        font.getManropeBold22px().setColor(0, 32.0f / 255, 32f / 255, 0.4f);
+        font.getManropeBold22px().draw(batch, chr, getX() + chr_pos_X + Setup.shadow_x / 2, getY() + Setup.shadow_y / 2);
 
-        batch.setColor(1, 1, 1, 1);
-        // batch.draw(back, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
-        batch.draw(letter, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
-
+        font.getManropeBold22px().setColor(1, 1, 1, 1);
         font.getManropeBold22px().draw(batch, chr, getX() + chr_pos_X, getY());
 
     }
