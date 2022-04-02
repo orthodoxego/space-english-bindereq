@@ -24,6 +24,7 @@ public class Letter extends Actor {
         setName("Letter " + number);
         this.chr = chr;
         this.isReal = isReal;
+        this.font = font;
         this.model = model;
         // this.back = textures.getCircles()[0];
         this.letter = textures.getCircles()[0];
@@ -68,6 +69,8 @@ public class Letter extends Actor {
         batch.setColor(1, 1, 1, 1);
         // batch.draw(back, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
         batch.draw(letter, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+
+        font.getManropeBold14px().draw(batch, chr, getX(), getY());
 
     }
 

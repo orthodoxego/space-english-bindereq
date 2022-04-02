@@ -59,6 +59,10 @@ public class GameScreen implements Screen {
         currentStage = new NextLevelStage(this, setup, viewport, camera, textures, n, font.getManropeBold14px(), font.getGlyphLayout());
     }
 
+    public Font getFont() {
+        return font;
+    }
+
     public void setGameStage() {
         currentStage = null;
         GameStage stage = new GameStage(this, setup, viewport, camera, textures);

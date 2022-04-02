@@ -9,6 +9,7 @@ import com.bindereq.game.actors.Brain;
 import com.bindereq.game.actors.Explosions;
 import com.bindereq.game.actors.Fire;
 import com.bindereq.game.actors.Fuel;
+import com.bindereq.game.actors.Letter;
 import com.bindereq.game.gamemodel.Model;
 import com.bindereq.game.settings.Const;
 import com.bindereq.game.settings.GdxViewport;
@@ -25,18 +26,24 @@ public class GameStage extends StageParent {
     Brain brain;
     Vector<Fire> fire = new Vector<>();
     Vector<Fuel> fuel = new Vector<>();
+    Vector<Letter> letter = new Vector<>();
     Vector<Explosions> explosions = new Vector<>();
     int countFrame = 0;
     float fuelFrame = 0;
 
     public GameStage(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera, Textures textures) {
         super(gameScreen, setup, viewport, camera, textures);
+        reset();
+    }
+
+    /** Рестарт игры. setup.level увеличить в другом месте. */
+    private void reset() {
         model = new Model(setup);
         addActors();
     }
 
     /**
-     * Добавит актёров на сцену.
+     * Добавит задний фон и игрока на сцену.
      */
     public void addActors() {
         Background background = new Background(textures.getBackground(), model);
@@ -68,7 +75,12 @@ public class GameStage extends StageParent {
         if (fuel.size() > 0 && fire.size() > 0 && countFrame % 3 == 0) checkCollisionFuelAndFire();
 
         // Каждые 5 кадров удаляются отключенные объекты
-        if (countFrame % 5 == 0) deleteDisabledObjects();
+        if (countFrame % 10 == 0) {
+            if (letter.size() < model.getTaskCountChars()) {
+                addLetters();
+            }
+            deleteDisabledObjects();
+        }
 
         // Проверить столкновение заправки и героя
         if (fuel.size() > 0 && countFrame % 10 == 0) {
@@ -76,12 +88,47 @@ public class GameStage extends StageParent {
         }
     }
 
+    /** Рассчитает и добавит недостающие символы-актёров. */
+    private void addLetters() {
+        for (int i = letter.size(); i < model.getTaskCountChars(); i++) {
+            String currentChar = model.getCurrentCharToScreen();
+            boolean isReal = model.getCurrentENGWord().contains(currentChar);
+            float y = -((int) (Math.random() * GdxViewport.WORLD_HEIGHT / 10));
+            if (letter.size() != model.getTaskCountChars() - 1) {
+                y = -((int) (Math.random() * GdxViewport.WORLD_HEIGHT));
+            }
+
+            Letter l = new Letter(currentChar,
+                    isReal,
+                    gameScreen.getFont(),
+                    model,
+                    textures,
+                    (int) (Math.random() * GdxViewport.WORLD_WIDTH) - textures.getCircles()[0].getRegionWidth() - 5,
+                    y,
+                    letter.size());
+            l.setSpeedY(Setup.speed_letter);
+            l.setSpeedX(Setup.speed_letter / 2);
+            addActor(l);
+            letter.add(l);
+        }
+        brain.toFront();
+    }
+
+    /** Удалит отключенных актёров. */
     private void deleteDisabledObjects() {
         // Удаление заправочных юнитов
         for (int i = fuel.size() - 1; i > -1; i--) {
             if (!fuel.elementAt(i).enabled) {
                 fuel.elementAt(i).remove();
                 fuel.remove(fuel.elementAt(i));
+            }
+        }
+
+        // Удаление символов
+        for (int i = letter.size() - 1; i > -1; i--) {
+            if (!letter.elementAt(i).enabled) {
+                letter.elementAt(i).remove();
+                letter.remove(letter.elementAt(i));
             }
         }
 
@@ -104,6 +151,7 @@ public class GameStage extends StageParent {
 
     }
 
+    /** Проверка столкновения двух актёров по минимальной ширине. */
     private boolean isCollision(Actor a, Actor b) {
         int xa, ya, xb, yb;
         xa = (int) (a.getX() + a.getWidth() / 2);
@@ -118,6 +166,7 @@ public class GameStage extends StageParent {
         return false;
     }
 
+    /** Проверка столкновения заправки и ракеты. */
     private boolean checkCollisionFuelAndFire() {
         boolean res = false;
         for (Fuel f: fuel) {
@@ -140,6 +189,7 @@ public class GameStage extends StageParent {
         return res;
     }
 
+    /** Проверка столкновения заправки и игрока. */
     private void checkCollisionFuelAndPlayer() {
         for (Fuel f: fuel) {
             if (f.getY() + f.getHeight() > brain.getY()) {
@@ -151,6 +201,7 @@ public class GameStage extends StageParent {
         }
     }
 
+    /** Добавит заправку, если заправок меньше 3 и пришло время (см. act()). */
     private void addFuel() {
         if (fuel.size() < 3) {
             Fuel f = new Fuel(model, textures, (float) (Math.random() * GdxViewport.WORLD_WIDTH - 64), 0, fuel.size());
@@ -190,6 +241,7 @@ public class GameStage extends StageParent {
         }
     }
 
+    /** Реакция на мышь. */
     public void press_mouse(int screenX, int screenY) {
         if (screenX < (brain.getX() + brain.getWidth() / 2) / GdxViewport.RATIO_HORIZONTAL) brain.move_left();
         if (screenX > (brain.getX() + brain.getWidth() / 2) / GdxViewport.RATIO_HORIZONTAL) brain.move_right();
