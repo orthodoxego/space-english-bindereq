@@ -1,5 +1,6 @@
 package com.bindereq.game.stages;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -93,9 +94,14 @@ public class GameStage extends StageParent {
         for (int i = letter.size(); i < model.getTaskCountChars(); i++) {
             String currentChar = model.getCurrentCharToScreen();
             boolean isReal = model.getCurrentENGWord().contains(currentChar);
+
             float y = -((int) (Math.random() * GdxViewport.WORLD_HEIGHT / 10));
-            if (letter.size() != model.getTaskCountChars() - 1) {
-                y = -((int) (Math.random() * GdxViewport.WORLD_HEIGHT));
+
+            if (letter.size() > 0) {
+                y = letter.get(i - 1).getY() - (int) (Math.random() * GdxViewport.WORLD_HEIGHT * 0.1f) - GdxViewport.WORLD_HEIGHT / model.getTaskCountChars();
+            }
+            if (y > -textures.getCircles()[0].getRegionHeight()) {
+                y = -textures.getCircles()[0].getRegionHeight();
             }
 
             Letter l = new Letter(currentChar,
@@ -106,8 +112,8 @@ public class GameStage extends StageParent {
                     (int) (Math.random() * GdxViewport.WORLD_WIDTH) - textures.getCircles()[0].getRegionWidth() - 5,
                     y,
                     letter.size());
-            l.setSpeedY(Setup.speed_letter);
-            l.setSpeedX(Setup.speed_letter / 2);
+            l.setSpeedY(Setup.speed_letter * (int) (Math.random() * 5));
+            l.setSpeedX((float) ((Setup.speed_letter / 2) * (Math.random() * 4)));
             addActor(l);
             letter.add(l);
         }

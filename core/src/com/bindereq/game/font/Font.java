@@ -15,7 +15,7 @@ public class Font {
     GlyphLayout glyphLayout;
 
     public static BitmapFont manrope_medium_14px;
-    public static BitmapFont manrope_bold_14px;
+    public static BitmapFont manrope_bold_22px;
 
     public Font() {
         manrope_bold = new FreeTypeFontGenerator(Gdx.files.internal("font/manrope-bold.ttf"));
@@ -38,12 +38,12 @@ public class Font {
         parameter.characters = Setup.FONT_CHARS;
         parameter.flip = true;
         parameter.kerning = true;
-        parameter.size = (int) (GdxViewport.FIXED_BLOCK * 2.5f);
+        parameter.size = (int) (GdxViewport.FIXED_BLOCK * 3.3f);
         parameter.borderWidth = 1;
         parameter.borderColor = Color.valueOf("224570");
         parameter.color = Color.valueOf("FFFFFF");
 
-        manrope_bold_14px = manrope_bold.generateFont(parameter);
+        manrope_bold_22px = manrope_bold.generateFont(parameter);
 
         manrope_bold.dispose();
         manrope_medium.dispose();
@@ -58,13 +58,13 @@ public class Font {
         return manrope_medium_14px;
     }
 
-    public BitmapFont getManropeBold14px() {
-        return manrope_bold_14px;
+    public BitmapFont getManropeBold22px() {
+        return manrope_bold_22px;
     }
 
     public void dispose() {
         manrope_medium_14px.dispose();
-        manrope_bold_14px.dispose();
+        manrope_bold_22px.dispose();
     }
 
 

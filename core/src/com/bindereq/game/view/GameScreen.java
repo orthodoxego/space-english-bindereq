@@ -18,9 +18,6 @@ import com.bindereq.game.settings.Textures;
 import com.bindereq.game.stages.GameStage;
 import com.bindereq.game.stages.NextLevelStage;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 public class GameScreen implements Screen {
 
     SpaceEnglishCore spaceEnglishCore;
@@ -56,7 +53,7 @@ public class GameScreen implements Screen {
 
     public void setNextLevelStage(int n) {
         currentStage = null;
-        currentStage = new NextLevelStage(this, setup, viewport, camera, textures, n, font.getManropeBold14px(), font.getGlyphLayout());
+        currentStage = new NextLevelStage(this, setup, viewport, camera, textures, n, font.getManropeBold22px(), font.getGlyphLayout());
     }
 
     public Font getFont() {

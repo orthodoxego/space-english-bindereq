@@ -1,6 +1,7 @@
 package com.bindereq.game.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.bindereq.game.font.Font;
@@ -13,7 +14,7 @@ public class Letter extends Actor {
 
     Model model;
     float speedX, speedY;
-    int number;
+    int number, widthChr, chr_pos_X;
     public boolean enabled = true;
     TextureRegion letter;
     String chr;
@@ -29,14 +30,20 @@ public class Letter extends Actor {
         // this.back = textures.getCircles()[0];
         this.letter = textures.getCircles()[0];
         this.number = number;
+        GlyphLayout gl = font.getGlyphLayout();
+        gl.setText(font.getManropeBold22px(), chr);
+        widthChr = (int) gl.width;
+
 
         setX(x);
         setY(y);
-        setWidth(letter.getRegionWidth());
-        setHeight(letter.getRegionHeight());
+        setWidth(letter.getRegionWidth() * 1.5f);
+        setHeight(letter.getRegionHeight() * 1.5f);
         setOrigin(1, 1);
         setRotation(0);
         setScale(1f, 1f);
+
+        chr_pos_X = (int) ((getWidth() - widthChr) / 2);
 
     }
 
@@ -70,7 +77,7 @@ public class Letter extends Actor {
         // batch.draw(back, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
         batch.draw(letter, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
 
-        font.getManropeBold14px().draw(batch, chr, getX(), getY());
+        font.getManropeBold22px().draw(batch, chr, getX() + chr_pos_X, getY());
 
     }
 

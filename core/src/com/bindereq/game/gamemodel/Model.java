@@ -67,8 +67,8 @@ public class Model {
 
         // Устанавливает количество букв, видимых на экране
         public void setTaskCountChars(int taskCountChars) {
-            if (taskCountChars > taskWord[number].length()) taskCountChars = 0;
-            else if (taskCountChars < 0) taskCountChars = taskWord[number].length();
+            // if (taskCountChars > taskWord[number].length()) taskCountChars = 0;
+            // else if (taskCountChars < 0) taskCountChars = taskWord[number].length();
             this.taskCountChars = taskCountChars;
         }
     }
