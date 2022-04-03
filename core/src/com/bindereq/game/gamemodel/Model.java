@@ -151,12 +151,16 @@ public class Model {
     // Увеличивает ДОПОЛНИТЕЛЬНУЮ скорость скроллинга при нажатии на кнопку
     public void increase_speed() {
         increase_speed += 15;
-        if (increase_speed > 150) increase_speed = 150;
+        if (increase_speed > Setup.maximum_speed_game_field) increase_speed = Setup.maximum_speed_game_field;
     }
 
     // Уменьшит скорость скроллинга при нажатии на кнопку
     public void decrease_speed() {
         increase_speed -= 15;
-        if (increase_speed < -50) increase_speed = -50;
+        if (increase_speed < -Setup.minimum_speed_game_field) increase_speed = Setup.minimum_speed_game_field;
+    }
+
+    public void set_minimum_speed() {
+        increase_speed = Setup.minimum_speed_game_field;
     }
 }

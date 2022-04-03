@@ -29,7 +29,20 @@ public class StageParent extends Stage {
         super.act(delta);
     }
 
-    public void end() {
+    public void end() {}
 
-    }
+    public void deleteRockets() {}
+
+    /**
+     * Удаляет заправочные юниты.
+     */
+    public void deleteFuel() {}
+
+    /**
+     * Удаляет взрывы.
+     */
+    public void deleteExplosions() {}
+
+    /** Удаляет символы. */
+    public void deleteLetters() {}
 }

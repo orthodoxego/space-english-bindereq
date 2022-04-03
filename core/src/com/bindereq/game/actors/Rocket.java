@@ -6,18 +6,21 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.bindereq.game.gamemodel.Model;
 import com.bindereq.game.settings.GdxViewport;
 import com.bindereq.game.settings.Setup;
+import com.bindereq.game.stages.StageParent;
 
 import java.util.Set;
 
-public class Fire extends Actor {
+public class Rocket extends Actor {
 
+    StageParent stageParent;
     Model model;
     TextureRegion textureRegion;
     float speedX, speedY;
     int number;
     public boolean enabled = true;
 
-    public Fire(Model model, TextureRegion textureRegion, float x, float y, int number) {
+    public Rocket(StageParent stageParent, Model model, TextureRegion textureRegion, float x, float y, int number) {
+        this.stageParent = stageParent;
         setName("Rocket" + number);
         this.model = model;
         this.textureRegion = textureRegion;
@@ -39,7 +42,10 @@ public class Fire extends Actor {
         setX(getX() + getSpeedX() * delta);
         setY(getY() - (getSpeedY() - model.getSpeed()) * delta);
 
-        if (getY() + getHeight() < 0) enabled = false;
+        if (getY() + getHeight() < 0) {
+            enabled = false;
+            stageParent.deleteRockets();
+        }
 
     }
 

@@ -1,14 +1,12 @@
 package com.bindereq.game.stages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.bindereq.game.SpaceEnglishCore;
 import com.bindereq.game.actors.Background;
 import com.bindereq.game.actors.Brain;
 import com.bindereq.game.actors.Explosions;
-import com.bindereq.game.actors.Fire;
+import com.bindereq.game.actors.Rocket;
 import com.bindereq.game.actors.Fuel;
 import com.bindereq.game.actors.Letter;
 import com.bindereq.game.gamemodel.Model;
@@ -25,7 +23,7 @@ public class GameStage extends StageParent {
 
     Model model;
     Brain brain;
-    Vector<Fire> fire = new Vector<>();
+    Vector<Rocket> rocket = new Vector<>();
     Vector<Fuel> fuel = new Vector<>();
     Vector<Letter> letter = new Vector<>();
     Vector<Explosions> explosions = new Vector<>();
@@ -73,19 +71,32 @@ public class GameStage extends StageParent {
         }
 
         // Проверить столкновение снаряда и заправки
-        if (fuel.size() > 0 && fire.size() > 0 && countFrame % 3 == 0) checkCollisionFuelAndFire();
+        if (fuel.size() > 0 && rocket.size() > 0 && countFrame % 3 == 0) checkCollisionFuelAndFire();
 
-        // Каждые 5 кадров удаляются отключенные объекты
-        if (countFrame % 10 == 0) {
+        // Еже-x-кадровое кадров добавляются буквы
+        if (countFrame % 25 == 0) {
             if (letter.size() < model.getTaskCountChars()) {
                 addLetters();
             }
-            deleteDisabledObjects();
         }
 
-        // Проверить столкновение заправки и героя
-        if (fuel.size() > 0 && countFrame % 10 == 0) {
-            checkCollisionFuelAndPlayer();
+        // Проверит столкновение ракеты и символа
+        if (countFrame % 3 == 0 && rocket.size() > 0) {
+            checkCollisionLettersAndFire();
+        }
+
+        if (countFrame % 10 == 0) {
+            // Проверка столкновения заправки и героя
+            if (fuel.size() > 0) {
+                checkCollisionFuelAndPlayer();
+            }
+
+            // Проверка столкновения символа и героя
+            if (letter.size() > 0) {
+                if (checkCollisionLetterAndPlayer()) {
+                    model.set_minimum_speed();
+                }
+            }
         }
     }
 
@@ -104,7 +115,7 @@ public class GameStage extends StageParent {
                 y = -textures.getCircles()[0].getRegionHeight();
             }
 
-            Letter l = new Letter(currentChar,
+            Letter l = new Letter(this, currentChar,
                     isReal,
                     gameScreen.getFont(),
                     model,
@@ -120,8 +131,33 @@ public class GameStage extends StageParent {
         brain.toFront();
     }
 
-    /** Удалит отключенных актёров. */
-    private void deleteDisabledObjects() {
+    /** Проверит и удалит отключенные ракеты. */
+    @Override
+    public void deleteRockets() {
+        // Удаление ракет
+        for (int i = rocket.size() - 1; i > -1; i--) {
+            if (!rocket.elementAt(i).enabled) {
+                rocket.elementAt(i).remove();
+                rocket.remove(rocket.elementAt(i));
+            }
+        }
+    }
+
+    /** Удалит взрыва с enabled == false. */
+    @Override
+    public void deleteExplosions() {
+        // Удаление взрывов
+        for (int i = explosions.size() - 1; i > -1; i--) {
+            if (!explosions.elementAt(i).enabled) {
+                explosions.elementAt(i).remove();
+                explosions.remove(explosions.elementAt(i));
+            }
+        }
+    }
+
+    /** Удалит заправочные юниты, помеченные отсутствием. */
+    @Override
+    public void deleteFuel() {
         // Удаление заправочных юнитов
         for (int i = fuel.size() - 1; i > -1; i--) {
             if (!fuel.elementAt(i).enabled) {
@@ -129,6 +165,12 @@ public class GameStage extends StageParent {
                 fuel.remove(fuel.elementAt(i));
             }
         }
+    }
+
+
+    /** Удаляет символы. */
+    @Override
+    public void deleteLetters() {
 
         // Удаление символов
         for (int i = letter.size() - 1; i > -1; i--) {
@@ -137,23 +179,6 @@ public class GameStage extends StageParent {
                 letter.remove(letter.elementAt(i));
             }
         }
-
-        // Удаление ракет
-        for (int i = fire.size() - 1; i > -1; i--) {
-            if (!fire.elementAt(i).enabled) {
-                fire.elementAt(i).remove();
-                fire.remove(fire.elementAt(i));
-            }
-        }
-
-        // Удаление взрывов
-        for (int i = explosions.size() - 1; i > -1; i--) {
-            if (!explosions.elementAt(i).enabled) {
-                explosions.elementAt(i).remove();
-                explosions.remove(explosions.elementAt(i));
-            }
-        }
-
 
     }
 
@@ -166,7 +191,7 @@ public class GameStage extends StageParent {
         yb = (int) (b.getY() + b.getHeight() / 2);
 
         int c = (int) Math.sqrt(Math.pow(xa - xb, 2) + Math.pow(ya - yb, 2));
-        if (c < Math.min(a.getWidth(), b.getWidth())) {
+        if (c < (a.getWidth() + b.getWidth()) / 2) {
             return true;
         }
         return false;
@@ -176,11 +201,15 @@ public class GameStage extends StageParent {
     private boolean checkCollisionFuelAndFire() {
         boolean res = false;
         for (Fuel f: fuel) {
-            for (Fire fr: fire) {
-                if (isCollision(f, fr)) {
+            for (Rocket fr: rocket) {
+                /** Проверка на присутствие (enabled) заправки и ракеты
+                 * необходима, потому что помеченные маркером "отсутствующие"
+                 * удаляются с экрана не сразу, а еже-некоторое количество кадров.
+                 */
+                if (f.enabled && fr.enabled && isCollision(f, fr)) {
                     fr.enabled = false;
                     f.enabled = false;
-                    Explosions e = new Explosions(model,
+                    Explosions e = new Explosions(this, model,
                             textures.getExplosions(),
                             f.getX() - 32, f.getY() - 32);
                     e.setSpeedX(0);
@@ -192,25 +221,95 @@ public class GameStage extends StageParent {
                 }
             }
         }
+
+        if (res) {
+            deleteRockets();
+            deleteFuel();
+        }
+
+        return res;
+    }
+
+    /** Проверка столкновения символа и ракеты. */
+    private boolean checkCollisionLettersAndFire() {
+        boolean res = false;
+        for (Letter let: letter) {
+            for (Rocket fr: rocket) {
+                /** Проверка на присутствие (enabled) заправки и ракеты
+                 * необходима, потому что помеченные маркером "отсутствующие"
+                 * удаляются с экрана не сразу, а еже-некоторое количество кадров.
+                 */
+                if (let.enabled && fr.enabled && isCollision(let, fr)) {
+                    fr.enabled = false;
+                    let.enabled = false;
+                    Explosions e = new Explosions(this, model,
+                            textures.getExplosions(),
+                            let.getX() - 32, let.getY() - 32);
+                    e.setSpeedX(0);
+                    e.setSpeedY(let.getSpeedY() / 2);
+                    explosions.add(e);
+                    addActor(e);
+                    brain.toFront();
+                    res = true;
+                }
+            }
+        }
+
+        if (res) {
+            deleteRockets();
+            deleteLetters();
+        }
+
+        return res;
+    }
+
+    /** Проверка столкновения символа и игрока. */
+    private boolean checkCollisionLetterAndPlayer() {
+        boolean res = false;
+        for (Letter let: letter) {
+            if (let.getY() + let.getHeight() > brain.getY()) {
+                if (isCollision(let, brain)) {
+                    let.enabled = false;
+                    Explosions e = new Explosions(this, model,
+                            textures.getExplosions(),
+                            let.getX() - 32, let.getY() - 32);
+                    e.setSpeedX(0);
+                    e.setSpeedY(0);
+                    explosions.add(e);
+                    addActor(e);
+                    brain.move /= 2;
+                    res = true;
+                }
+            }
+        }
+        if (res) {
+            deleteLetters();
+        }
         return res;
     }
 
     /** Проверка столкновения заправки и игрока. */
-    private void checkCollisionFuelAndPlayer() {
+    private boolean checkCollisionFuelAndPlayer() {
+        boolean res = false;
         for (Fuel f: fuel) {
             if (f.getY() + f.getHeight() > brain.getY()) {
                 if (isCollision(f, brain)) {
                     brain.addFuel();
                     f.enabled = false;
+                    res = true;
                 }
             }
         }
+        if (res) {
+            deleteFuel();
+        }
+        return res;
     }
 
     /** Добавит заправку, если заправок меньше 3 и пришло время (см. act()). */
     private void addFuel() {
         if (fuel.size() < 3) {
-            Fuel f = new Fuel(model, textures, (float) (Math.random() * GdxViewport.WORLD_WIDTH - 64), 0, fuel.size());
+            Fuel f = new Fuel(this, model, textures, (float) (Math.random() * GdxViewport.WORLD_WIDTH - 64), 0, fuel.size());
             f.setSpeedX(Setup.speed_fuel_x);
             f.setSpeedY(Setup.speed_fuel_y);
             fuel.add(f);
@@ -235,12 +334,12 @@ public class GameStage extends StageParent {
                 model.decrease_speed();
                 break;
             case FIRE:
-                Fire f = new Fire(model, textures.getRocket(), brain.getX() + brain.getWidth() / 2 - 16, brain.getY() - 32, fire.size());
+                Rocket f = new Rocket(this, model, textures.getRocket(), brain.getX() + brain.getWidth() / 2 - 16, brain.getY() - 32, rocket.size());
                 // Скорость ракеты получает ускорение движения мозга
                 f.setSpeedX(brain.move * 5);
                 // Константа скорости ракеты
                 f.setSpeedY(Setup.speed_rocket);
-                fire.add(f);
+                rocket.add(f);
                 addActor(f);
                 break;
 

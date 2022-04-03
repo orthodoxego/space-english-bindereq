@@ -7,9 +7,11 @@ import com.bindereq.game.gamemodel.Model;
 import com.bindereq.game.settings.GdxViewport;
 import com.bindereq.game.settings.Setup;
 import com.bindereq.game.settings.Textures;
+import com.bindereq.game.stages.StageParent;
 
 public class Fuel extends Actor {
 
+    StageParent stageParent;
     Model model;
     float speedX, speedY;
     int number;
@@ -17,7 +19,8 @@ public class Fuel extends Actor {
     TextureRegion fuelIco;
     // TextureRegion back;
 
-    public Fuel(Model model, Textures textures, float x, float y, int number) {
+    public Fuel(StageParent stageParent, Model model, Textures textures, float x, float y, int number) {
+        this.stageParent = stageParent;
         setName("Fuel" + number);
         this.model = model;
         // this.back = textures.getCircles()[0];
@@ -48,7 +51,10 @@ public class Fuel extends Actor {
             setX(0);
         }
 
-        if (getY() > GdxViewport.WORLD_HEIGHT) enabled = false;
+        if (getY() > GdxViewport.WORLD_HEIGHT) {
+            enabled = false;
+            stageParent.deleteFuel();
+        }
 
     }
 

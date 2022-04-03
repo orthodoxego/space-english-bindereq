@@ -9,9 +9,11 @@ import com.bindereq.game.gamemodel.Model;
 import com.bindereq.game.settings.GdxViewport;
 import com.bindereq.game.settings.Setup;
 import com.bindereq.game.settings.Textures;
+import com.bindereq.game.stages.StageParent;
 
 public class Letter extends Actor {
 
+    StageParent stageParent;
     Model model;
     float speedX, speedY;
     int number, widthChr, chr_pos_X;
@@ -21,7 +23,8 @@ public class Letter extends Actor {
     boolean isReal;
     Font font;
 
-    public Letter(String chr, boolean isReal, Font font, Model model, Textures textures, float x, float y, int number) {
+    public Letter(StageParent stageParent, String chr, boolean isReal, Font font, Model model, Textures textures, float x, float y, int number) {
+        this.stageParent = stageParent;
         setName("Letter " + number);
         this.chr = chr;
         this.isReal = isReal;
@@ -37,8 +40,8 @@ public class Letter extends Actor {
 
         setX(x);
         setY(y);
-        setWidth(letter.getRegionWidth() * 1.5f);
-        setHeight(letter.getRegionHeight() * 1.5f);
+        setWidth(letter.getRegionWidth() * 0.8f);
+        setHeight(letter.getRegionHeight() * 0.8f);
         setOrigin(1, 1);
         setRotation(0);
         setScale(1f, 1f);
@@ -61,7 +64,10 @@ public class Letter extends Actor {
             setX(0);
         }
 
-        if (getY() > GdxViewport.WORLD_HEIGHT) enabled = false;
+        if (getY() > GdxViewport.WORLD_HEIGHT) {
+            enabled = false;
+            stageParent.deleteLetters();
+        }
 
     }
 
@@ -69,14 +75,17 @@ public class Letter extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 
-        batch.setColor(0, 32.0f / 255, 32f / 255, 0.4f);
+        // batch.setColor(0, 32.0f / 255, 32f / 255, 0.4f);
         // batch.draw(back, getX() + Setup.shadow_x + (int) (Math.random() * 8), getY() + Setup.shadow_y + (int) (Math.random() * 8), getOriginX(), getOriginY(), getWidth(), getHeight(), 0.9f, 0.9f, getRotation());
-        batch.draw(letter, getX() + Setup.shadow_x + (int) (Math.random() * 8), getY() + Setup.shadow_y + (int) (Math.random() * 8), getOriginX(), getOriginY(), getWidth(), getHeight(), 0.9f, 0.9f, getRotation());
+        // batch.draw(letter, getX() + Setup.shadow_x + (int) (Math.random() * 8), getY() + Setup.shadow_y + (int) (Math.random() * 8), getOriginX(), getOriginY(), getWidth(), getHeight(), 0.9f, 0.9f, getRotation());
 
-        batch.setColor(1, 1, 1, 1);
-        // batch.draw(back, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
-        batch.draw(letter, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+        // batch.setColor(1, 1, 1, 1);
+        // batch.draw(letter, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
 
+        font.getManropeBold22px().setColor(0f, 0.12f, 0.12f, 0.4f);
+        font.getManropeBold22px().draw(batch, chr, getX() + chr_pos_X + Setup.shadow_x, getY() + Setup.shadow_y);
+
+        font.getManropeBold22px().setColor(1, 1, 1, 1);
         font.getManropeBold22px().draw(batch, chr, getX() + chr_pos_X, getY());
 
     }

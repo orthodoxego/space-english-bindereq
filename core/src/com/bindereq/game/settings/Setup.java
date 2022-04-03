@@ -13,6 +13,10 @@ public class Setup {
     public static float speed_fuel_x = 200.0f, speed_fuel_y = 50f;
     public static int shadow_x = 24, shadow_y = 24;
 
+    // Минимальная и максимальная скорости перемещения игрового поля
+    public static int minimum_speed_game_field = -50;
+    public static int maximum_speed_game_field = 150;
+
     int level = 1;
 
     public int getDefaultSpeed() {

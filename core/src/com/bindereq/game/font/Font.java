@@ -38,7 +38,7 @@ public class Font {
         parameter.characters = Setup.FONT_CHARS;
         parameter.flip = true;
         parameter.kerning = true;
-        parameter.size = (int) (GdxViewport.FIXED_BLOCK * 3.3f);
+        parameter.size = (int) (GdxViewport.FIXED_BLOCK * 2.1f);
         parameter.borderWidth = 1;
         parameter.borderColor = Color.valueOf("224570");
         parameter.color = Color.valueOf("FFFFFF");

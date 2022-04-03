@@ -7,16 +7,19 @@ import com.bindereq.game.gamemodel.Model;
 import com.bindereq.game.settings.GdxViewport;
 import com.bindereq.game.settings.Setup;
 import com.bindereq.game.settings.Textures;
+import com.bindereq.game.stages.StageParent;
 
 public class Explosions extends Actor {
 
+    StageParent stageParent;
     Model model;
     float speedX, speedY, time;
     int frame;
     public boolean enabled = true;
     TextureRegion[] moves;
 
-    public Explosions(Model model, TextureRegion[] moves, float x, float y) {
+    public Explosions(StageParent stageParent, Model model, TextureRegion[] moves, float x, float y) {
+        this.stageParent = stageParent;
         setName("Explosions");
         this.model = model;
         // this.back = textures.getCircles()[0];
@@ -37,13 +40,14 @@ public class Explosions extends Actor {
     public void act(float delta) {
         super.act(delta);
         time += delta;
-        if (time > 0.12f) {
+        if (time > 0.09f) {
             frame += 1;
             time = 0;
         }
         if (frame >= moves.length) {
-            frame = 0;
+            frame = moves.length - 1;
             enabled = false;
+            stageParent.deleteExplosions();
         }
 
         setX(getX() + getSpeedX() * delta);
@@ -69,7 +73,7 @@ public class Explosions extends Actor {
         // batch.draw(back, getX() + Setup.shadow_x + (int) (Math.random() * 8), getY() + Setup.shadow_y + (int) (Math.random() * 8), getOriginX(), getOriginY(), getWidth(), getHeight(), 0.9f, 0.9f, getRotation());
         batch.draw(moves[moves.length - 1 - frame], getX() - getWidth() / 2 + Setup.shadow_x, getY() - getHeight() / 2 + Setup.shadow_y, getOriginX(), getOriginY(), getWidth() * 2, getHeight() * 2, getScaleX(), getScaleY(), getRotation());
 
-        batch.setColor(0.9f, 0.2f, 0.7f, 0.7f);
+        batch.setColor(0.8f, 0.9f, 0.3f, 0.6f);
         batch.draw(moves[moves.length - 1 - frame], getX() - getWidth() / 2, getY() - getHeight() / 2, getOriginX(), getOriginY(), getWidth() * 2, getHeight() * 2, getScaleX(), getScaleY(), getRotation());
 
         batch.setColor(1, 1, 1, 1);
