@@ -40,7 +40,7 @@ public class Explosions extends Actor {
     public void act(float delta) {
         super.act(delta);
         time += delta;
-        if (time > 0.09f) {
+        if (time > 0.08f) {
             frame += 1;
             time = 0;
         }
@@ -71,10 +71,11 @@ public class Explosions extends Actor {
 
         batch.setColor(0, 0.24f, 0.12f, 0.4f);
         // batch.draw(back, getX() + Setup.shadow_x + (int) (Math.random() * 8), getY() + Setup.shadow_y + (int) (Math.random() * 8), getOriginX(), getOriginY(), getWidth(), getHeight(), 0.9f, 0.9f, getRotation());
-        batch.draw(moves[moves.length - 1 - frame], getX() - getWidth() / 2 + Setup.shadow_x, getY() - getHeight() / 2 + Setup.shadow_y, getOriginX(), getOriginY(), getWidth() * 2, getHeight() * 2, getScaleX(), getScaleY(), getRotation());
+        batch.draw(moves[frame], getX() - getWidth() / 2 + Setup.shadow_x, getY() - getHeight() / 2 + Setup.shadow_y, getOriginX(), getOriginY(), getWidth() * 2, getHeight() * 2, getScaleX(), getScaleY(), getRotation());
 
-        batch.setColor(0.8f, 0.9f, 0.3f, 0.6f);
-        batch.draw(moves[moves.length - 1 - frame], getX() - getWidth() / 2, getY() - getHeight() / 2, getOriginX(), getOriginY(), getWidth() * 2, getHeight() * 2, getScaleX(), getScaleY(), getRotation());
+        batch.setColor(0.8f, 0.9f, 0.3f, 1f);
+        // batch.draw(moves[moves.length - 1 - frame], getX() - getWidth() / 2, getY() - getHeight() / 2, getOriginX(), getOriginY(), getWidth() * 2, getHeight() * 2, getScaleX(), getScaleY(), getRotation());
+        batch.draw(moves[frame], getX() - getWidth() / 2, getY() - getHeight() / 2, getOriginX(), getOriginY(), getWidth() * 2, getHeight() * 2, getScaleX(), getScaleY(), getRotation());
 
         batch.setColor(1, 1, 1, 1);
         // batch.draw(back, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());

@@ -10,9 +10,9 @@ public class Model {
                                            // который должен вылететь на экран
         private int taskCountChars;        // Сколько букв из строки символов должно
                                            // летать на экране одновременно
-        public String[] taskWord;          // Английское слово-задание
+        public String[] taskEngWord;          // Английское слово-задание
         public String[] screenStarsWord;   // Слово для отображения в виде звёздочек
-        public String[] taskRus;           // Русское слово-задание
+        public String[] taskRusWord;           // Русское слово-задание
         public String[] taskChars;         // Какие символы должны вылетать
 
         public String getCurrentChar() {
@@ -23,8 +23,8 @@ public class Model {
         }
 
         // Установит текущее задание и создаст слово-прокладку
-        public void setTaskWord(String[] t) {
-            taskWord = t;
+        public void setEngWord(String[] t) {
+            taskEngWord = t;
             screenStarsWord = new String[t.length];
             for (int i = 0; i < t.length; i++) {
                 screenStarsWord[i] = getBlankChars(t[i]);
@@ -35,7 +35,7 @@ public class Model {
         private String getBlankChars(String s) {
             String ret = "";
             for (int i = 0; i < s.length(); i++) {
-                ret += s.charAt(i);
+                ret += "*";
             }
             return ret;
         }
@@ -45,8 +45,12 @@ public class Model {
         }
 
         // Вернёт английское слово-задание
-        public String getTaskWord() {
-            return taskWord[number];
+        public String getEngWord() {
+            return taskEngWord[number];
+        }
+
+        public String getRusWord() {
+            return taskRusWord[number];
         }
 
         // Вернёт строку символов для вылета на экране
@@ -57,7 +61,7 @@ public class Model {
         // Увеличит номер слова в задании (например, когда первое слово угадано)
         public void nextTask() {
             number += 1;
-            if (number >= taskWord.length) number = 0;
+            if (number >= taskEngWord.length) number = 0;
         }
 
         // Вернёт количество букв, сколько должно быть одновременно на экране
@@ -96,8 +100,8 @@ public class Model {
         switch (level) {
             case 1:
                 task.number = 0;
-                task.setTaskWord(new String[] {"HOUSE", "TABLE", "CHAIR"});
-                task.taskRus = new String[] {"ДОМ", "СТОЛ", "СТУЛ"};
+                task.setEngWord(new String[] {"HOUSE", "TABLE", "CHAIR"});
+                task.taskRusWord = new String[] {"ДОМ", "СТОЛ", "СТУЛ"};
                 task.taskChars = new String[] {"HOUSE",
                                                "TOEABPRLMDE",
                                                "BCDEFHGFADIR"};
@@ -108,7 +112,11 @@ public class Model {
 
     // Вернёт текущее английское слово
     public String getCurrentENGWord() {
-        return task.getTaskWord();
+        return task.getEngWord();
+    }
+
+    public String getCurrentRUSWord() {
+        return task.getRusWord();
     }
 
     /** Вернёт текущий символ для вывода на экран

@@ -9,6 +9,7 @@ import com.bindereq.game.actors.Explosions;
 import com.bindereq.game.actors.Rocket;
 import com.bindereq.game.actors.Fuel;
 import com.bindereq.game.actors.Letter;
+import com.bindereq.game.actors.WordEngRus;
 import com.bindereq.game.gamemodel.Model;
 import com.bindereq.game.settings.Const;
 import com.bindereq.game.settings.GdxViewport;
@@ -23,6 +24,7 @@ public class GameStage extends StageParent {
 
     Model model;
     Brain brain;
+    WordEngRus wordEngRus;
     Vector<Rocket> rocket = new Vector<>();
     Vector<Fuel> fuel = new Vector<>();
     Vector<Letter> letter = new Vector<>();
@@ -47,8 +49,15 @@ public class GameStage extends StageParent {
     public void addActors() {
         Background background = new Background(textures.getBackground(), model);
         brain = new Brain(setup, model, textures, GdxViewport.WORLD_WIDTH / 2 - 64, GdxViewport.WORLD_HEIGHT - 256, 128, 128, 0);
+        wordEngRus = new WordEngRus(this, model, gameScreen.getFont(),
+                model.getScreenStarsWord(),
+                model.getCurrentRUSWord(),
+                (int) (GdxViewport.WORLD_WIDTH * 0.05f),
+                (int) (GdxViewport.WORLD_WIDTH * 0.03f));
+
         addActor(background);
         addActor(brain);
+        addActor(wordEngRus);
     }
 
     /**
