@@ -11,7 +11,7 @@ public class Model {
         private int taskCountChars;        // Сколько букв из строки символов должно
                                            // летать на экране одновременно
         public String[] taskEngWord;          // Английское слово-задание
-        public String[] screenStarsWord;   // Слово для отображения в виде звёздочек
+        public String screenStarsWord;   // Слово для отображения в виде звёздочек
         public String[] taskRusWord;           // Русское слово-задание
         public String[] taskChars;         // Какие символы должны вылетать
 
@@ -29,6 +29,11 @@ public class Model {
             for (int i = 0; i < t.length; i++) {
                 screenStarsWord[i] = getBlankChars(t[i]);
             }
+        }
+
+        public void setStarsWord(String word) {
+            for (int i = 0; i < word.length(); i++)
+                screenStarsWord[i] = word.charAt(i) + "";
         }
 
         // Вернёт строку с символами-звёдочками HOUSE -> *****
@@ -108,6 +113,30 @@ public class Model {
                 task.setTaskCountChars(5);
                 break;
         }
+    }
+
+    public void replaseCharInStarsWord(String s) {
+        StringBuilder word = new StringBuilder();
+        for (int i = 0; i < getCurrentENGWord().length(); i++) {
+            if (s.contains("" + getCurrentENGWord().charAt(i)) &&
+                    getScreenStarsWord().charAt(i) == '*') {
+                word.append(s);
+            } else {
+                word.append("*");
+            }
+        }
+
+        task.setStarsWord(word.toString());
+    }
+
+    public boolean isReal(String currentChar) {
+        for (int i = 0; i < getCurrentENGWord().length(); i++) {
+            if (currentChar.contains("" + getCurrentENGWord().charAt(i)) &&
+            getScreenStarsWord().charAt(i) == '*') {
+                return true;
+            }
+        }
+        return false;
     }
 
     // Вернёт текущее английское слово

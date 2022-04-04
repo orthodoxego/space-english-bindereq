@@ -20,7 +20,7 @@ public class Letter extends Actor {
     public boolean enabled = true;
     TextureRegion letter;
     String chr;
-    boolean isReal;
+    public boolean isReal;
     Font font;
 
     public Letter(StageParent stageParent, String chr, boolean isReal, Font font, Model model, Textures textures, float x, float y, int number) {

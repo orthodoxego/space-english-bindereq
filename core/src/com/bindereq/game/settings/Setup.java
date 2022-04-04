@@ -10,7 +10,8 @@ public class Setup {
     float decrement_move_brain = 15f;
     public static float speed_rocket = 400.0f;
     public static float speed_letter = 150.0f;
-    public static float speed_fuel_x = 200.0f, speed_fuel_y = 50f;
+    public static float speed_fuel_x = 0; // 200.0f;
+    public static float speed_fuel_y = 50f;
     public static int shadow_x = 24, shadow_y = 24;
 
     // Минимальная и максимальная скорости перемещения игрового поля

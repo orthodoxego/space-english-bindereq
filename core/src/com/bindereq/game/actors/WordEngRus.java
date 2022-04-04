@@ -41,7 +41,7 @@ public class WordEngRus extends Actor {
         super.draw(batch, parentAlpha);
 
         font.getManropeBold22px().setColor(1, 1, 1, 1);
-        font.getManropeBold22px().draw(batch, eng, getX(), getY());
+        font.getManropeBold22px().draw(batch, model.getScreenStarsWord(), getX(), getY());
 
         font.getManropeBold22px().setColor(1, 1, 1, 1);
         font.getManropeBold22px().draw(batch, rus, getX(), getY() + heightEng);

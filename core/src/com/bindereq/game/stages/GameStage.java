@@ -3,9 +3,11 @@ package com.bindereq.game.stages;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.bindereq.game.SpaceEnglishCore;
 import com.bindereq.game.actors.Background;
 import com.bindereq.game.actors.Brain;
 import com.bindereq.game.actors.Explosions;
+import com.bindereq.game.actors.GreenExplosions;
 import com.bindereq.game.actors.Rocket;
 import com.bindereq.game.actors.Fuel;
 import com.bindereq.game.actors.Letter;
@@ -113,7 +115,8 @@ public class GameStage extends StageParent {
     private void addLetters() {
         for (int i = letter.size(); i < model.getTaskCountChars(); i++) {
             String currentChar = model.getCurrentCharToScreen();
-            boolean isReal = model.getCurrentENGWord().contains(currentChar);
+
+            boolean isReal = model.isReal(currentChar);
 
             float y = -((int) (Math.random() * GdxViewport.WORLD_HEIGHT / 10));
 
@@ -249,17 +252,34 @@ public class GameStage extends StageParent {
                  * удаляются с экрана не сразу, а еже-некоторое количество кадров.
                  */
                 if (let.enabled && fr.enabled && isCollision(let, fr)) {
-                    fr.enabled = false;
-                    let.enabled = false;
-                    Explosions e = new Explosions(this, model,
-                            textures.getExplosions(),
-                            let.getX() - 32, let.getY() - 32);
-                    e.setSpeedX(0);
-                    e.setSpeedY(let.getSpeedY() / 2);
-                    explosions.add(e);
-                    addActor(e);
-                    brain.toFront();
-                    res = true;
+                    // Если символа НЕТ в слове или он уже открыт
+                    if (!let.isReal) {
+                        fr.enabled = false;
+                        let.enabled = false;
+                        Explosions e = new Explosions(this, model,
+                                textures.getExplosions(),
+                                let.getX() - 32, let.getY() - 32);
+                        e.setSpeedX(0);
+                        e.setSpeedY(let.getSpeedY() / 2);
+                        explosions.add(e);
+                        addActor(e);
+                        brain.toFront();
+                        res = true;
+                    } else {
+                        // Если символ ЕСТЬ в слове
+                        fr.enabled = false;
+                        let.enabled = false;
+                        GreenExplosions e = new GreenExplosions(this, model,
+                                textures.getExplosions(),
+                                let.getX() - 32, let.getY() - 32);
+                        e.setSpeedX(0);
+                        e.setSpeedY(let.getSpeedY() / 2);
+                        explosions.add(e);
+                        addActor(e);
+                        brain.toFront();
+                        res = true;
+                        SpaceEnglishCore.log("OK");
+                    }
                 }
             }
         }
@@ -318,7 +338,10 @@ public class GameStage extends StageParent {
     /** Добавит заправку, если заправок меньше 3 и пришло время (см. act()). */
     private void addFuel() {
         if (fuel.size() < 3) {
-            Fuel f = new Fuel(this, model, textures, (float) (Math.random() * GdxViewport.WORLD_WIDTH - 64), 0, fuel.size());
+            Fuel f = new Fuel(this, model, textures,
+                    128 + (float) (Math.random() * GdxViewport.WORLD_WIDTH - 128),
+                    -128,
+                    fuel.size());
             f.setSpeedX(Setup.speed_fuel_x);
             f.setSpeedY(Setup.speed_fuel_y);
             fuel.add(f);
